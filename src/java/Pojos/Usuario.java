@@ -4,8 +4,6 @@
  */
 package Pojos;
 
-import java.io.Serializable;
-
 /**
  *
  * @author snidE
