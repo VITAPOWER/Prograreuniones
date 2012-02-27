@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+<constant name="struts.devMode" value="true" />
+
+<package name="action" extends="struts-default">
+
+<action name="*index" class="action.Login" method="{1}">
+    <result name="success">/index.jsp</result>
+    <result name="successlogin">/menu.jsp</result>
+</action>
+<action name="*alta" class="action.Alta" method="{1}">
+    <result name="success">/alta.jsp</result>
+</action>
+<action name="*creargrupo" class="action.CrearGrupo" method="{1}">
+    <result name="success">/creargrupo.jsp</result>
+    <result name="successekis">/menu.jsp</result>
+</action>
+
+<!-- Add actions here -->
+</package>
+
+
+<!-- Add packages here -->
+
+</struts>

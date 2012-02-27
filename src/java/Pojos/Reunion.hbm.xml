@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="Pojos.Reunion" table="reuniones">
+  <id column="idreuniones" name="idreuniones" type="java.lang.Integer">
+    <generator class="increment"/>
+  </id>
+  <property name="nombrereunion" column="nombrereunion" type="java.lang.String"/>
+  <property name="tiempocreacion" column="tiempocreacion" type="java.util.Date"/>
+  <property name="tiemporestante" column="tiemporestante" type="java.lang.Integer"/>
+  <property name="idusuariocreador" column="idusuariocreador" type="java.lang.Integer"/>
+  <property name="status" column="status" type="java.lang.Integer"/>
+  </class>
+</hibernate-mapping>

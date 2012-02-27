@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="Pojos.Usuario" table="usuario">
+  <id column="idusuario" name="idusuario" type="java.lang.Integer">
+    <generator class="increment"/>
+  </id>
+  <property name="nombre" column="nombre" type="java.lang.String"/>
+  <property name="username" column="username" type="java.lang.String"/>
+  <property name="password" column="password" type="java.lang.String"/>
+  <property name="email" column="email" type="java.lang.String"/>
+  </class>
+</hibernate-mapping>
