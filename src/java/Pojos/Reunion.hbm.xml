@@ -7,7 +7,7 @@
   </id>
   <property name="nombrereunion" column="nombrereunion" type="java.lang.String"/>
   <property name="tiempocreacion" column="tiempocreacion" type="java.util.Date"/>
-  <property name="tiemporestante" column="tiemporestante" type="java.lang.Integer"/>
+  <property name="tiemporestante" column="tiemporestante" type="java.util.Date"/>
   <property name="idusuariocreador" column="idusuariocreador" type="java.lang.Integer"/>
   <property name="status" column="status" type="java.lang.Integer"/>
   </class>

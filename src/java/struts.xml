@@ -21,6 +21,9 @@
     <result name="success">/creargrupo.jsp</result>
     <result name="successekis">/menu.jsp</result>
 </action>
+<action name="*logout" class="action.Logout" method="{1}">
+    <result name="success">/menu.jsp</result>
+</action>
 
 <!-- Add actions here -->
 </package>

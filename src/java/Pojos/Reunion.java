@@ -8,6 +8,8 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,7 +20,7 @@ public class Reunion {
     private Integer idreuniones;
     private String nombrereunion;
     private Date tiempocreacion;
-    private Integer tiemporestante;
+    private Date tiemporestante;
     private Integer idusuariocreador;
     private Integer status;
 
@@ -44,16 +46,18 @@ public class Reunion {
 
     public void setTiempocreacion(String tiempocreacion) throws ParseException {
         DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        formatter = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
         this.tiempocreacion = (Date) formatter.parse(tiempocreacion);
     }
 
-    public Integer getTiemporestante() {
+    public Date getTiemporestante() {
         return tiemporestante;
     }
 
-    public void setTiemporestante(Integer tiemporestante) {
-        this.tiemporestante = tiemporestante;
+    public void setTiemporestante(String tiemporestante) throws ParseException{
+        DateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+        this.tiemporestante = (Date) formatter.parse(tiemporestante);
     }
 
     public Integer getIdusuariocreador() {

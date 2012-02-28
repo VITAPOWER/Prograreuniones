@@ -9,5 +9,7 @@
     <property name="current_session_context_class">thread</property>
     <mapping resource="Pojos/Usuario.hbm.xml"/>
     <mapping resource="Pojos/Reunion.hbm.xml"/>
+    <mapping resource="Pojos/Horario.hbm.xml"/>
+    <mapping resource="Pojos/Participante.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

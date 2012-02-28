@@ -8,27 +8,43 @@ import Daos.HorarioDAO;
 import Daos.ReunionDAO;
 import Pojos.Reunion;
 import Pojos.Horario;
+import Pojos.Participante;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.*;
 /**
  * @author Carolina/Eder
  */
 public class CrearGrupo extends ActionSupport implements ModelDriven{
     
-
+    //objetos
     private Reunion reunion = new Reunion();
     private Horario horario = new Horario();
+    private Participante participante = new Participante();
     
+    //variables para horario
     private String[] fechainicio;
     private String[] fechafin;
     
+    //variables para participantes
+    private String[] mail;
+    private String[] bloquear;
+    private String[] evitar;
+    private String[] apoyar;
+    
     Map errorMap = new HashMap();
     
+    //private String mensaje;
+    
+    @Override
+    public String execute() throws Exception {
+        return SUCCESS;
+    }
+    
     public String dar() throws Exception {
-        Map session = ActionContext.getContext().getSession();      
+        Map session = ActionContext.getContext().getSession();
         
         reunion.setIdusuariocreador((Integer)session.get("idusuario"));
         reunion.setStatus(5);
@@ -63,7 +79,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         errorMap.put(CrearGrupo.ERR_AGREGAHORARIO_MASDEUNO, "Debe haber mas de un horario para realizar la votacion");
     }
     
-  /* Errores */
+      /* Errores */
     public static final Integer ERR_NOMBREGRUPO_ENTER = new Integer(1);
     public static final Integer ERR_NOMBREGRUPO_INVALID = new Integer(2);
    
@@ -86,7 +102,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
     public void setErrorMessages(Map msgMap) {
         this.msgMap = msgMap;
     }
-
+    
     public String getErrorMessage(String propName) {
         Integer code = (Integer)(errorCodes.get(propName));
         if (code == null) {
@@ -115,20 +131,20 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
             errorCodes.put("NombreGrupo", ERR_NOMBREGRUPO_INVALID);
         }
         
-         //Validacion al crear la hora de apertura de la votacion       
+            //Validacion al crear la hora de apertura de la votacion 
         if(reunion.getTiempocreacion() == null){
             errorCodes.put("HoraApertura", ERR_HORAAPERTURA_ENTER);
         } else if (reunion.getTiempocreacion() != reunion.getTiempocreacion() || comparacion > 0){//dunno what to do...
             errorCodes.put("HoraApertura", ERR_HORAAPERTURA_INVALID);
         }
         
-         //Validacion al crear la hora del tiempo limite de la votacion
+            //Validacion al crear la hora del tiempo limite de la votacion
         if(reunion.getTiemporestante() == null){
             errorCodes.put("TiempoLimite", ERR_HORATIEMPOLIMITE_ENTER);
         } else if (reunion.getTiemporestante() != reunion.getTiemporestante() || comparacion > 0){//dunno what to do...
             errorCodes.put("TiempoLimite", ERR_HORATIEMPOLIMITE_INVALID);
         }
-        
+
         //Entero para comparar fechas entre el tiempo en votacion de reunion
         int comparacion2 = horario.getFechainicio().compareTo(horario.getFechafin()); 
         
@@ -143,13 +159,13 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         
         
         // If no errors, form is valid
-        return errorCodes.size() == 0;
+            return errorCodes.size() == 0;
     }
     
     @Override
     public Object getModel() {
         return reunion;
-    }
+    }    
     
     //metodos para obtener el array de horarios
     //cantidad de horarios debe ser > 1 para que funcione
@@ -160,7 +176,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
     public void setFechafin(String[] fechafin) {
         this.fechafin = fechafin;
     }
-    
+
     public void setFechafin(String fechafin) {
         this.fechafin = new String[1];
         this.fechafin[0] = fechafin;
@@ -178,5 +194,37 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         this.fechainicio = new String[1];
         this.fechainicio[0] = fechainicio;
     }
+    //metodos que obtienen los arrays de invitados
+    //
+    public String[] getApoyar() {
+        return apoyar;
+    }
 
+    public void setApoyar(String[] apoyar) {
+        this.apoyar = apoyar;
+    }
+
+    public String[] getBloquear() {
+        return bloquear;
+    }
+
+    public void setBloquear(String[] bloquear) {
+        this.bloquear = bloquear;
+    }
+
+    public String[] getEvitar() {
+        return evitar;
+    }
+
+    public void setEvitar(String[] evitar) {
+        this.evitar = evitar;
+    }
+
+    public String[] getMail() {
+        return mail;
+    }
+
+    public void setMail(String[] mail) {
+        this.mail = mail;
+    }
 }
