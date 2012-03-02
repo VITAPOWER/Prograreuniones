@@ -31,9 +31,9 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
     
     //variables para participantes
     private String[] email;
-    private String[] bloquear;
-    private String[] evitar;
-    private String[] apoyar;
+    private Integer[] bloquear;
+    private Integer[] evitar;
+    private Integer[] apoyar;
     
     Map errorMap = new HashMap();
     
@@ -200,27 +200,27 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
     
     //metodos que obtienen los arrays de invitados
     //
-    public String[] getApoyar() {
+    public Integer[] getApoyar() {
         return apoyar;
     }
 
-    public void setApoyar(String[] apoyar) {
+    public void setApoyar(Integer[] apoyar) {
         this.apoyar = apoyar;
     }
 
-    public String[] getBloquear() {
+    public Integer[] getBloquear() {
         return bloquear;
     }
 
-    public void setBloquear(String[] bloquear) {
+    public void setBloquear(Integer[] bloquear) {
         this.bloquear = bloquear;
     }
 
-    public String[] getEvitar() {
+    public Integer[] getEvitar() {
         return evitar;
     }
 
-    public void setEvitar(String[] evitar) {
+    public void setEvitar(Integer[] evitar) {
         this.evitar = evitar;
     }
 

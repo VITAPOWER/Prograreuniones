@@ -12,6 +12,28 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Pagina de Votacion!</h1>
+        <h1>${action.email}</h1>
+        <table>
+            <tr>
+                <td>
+                    Imagen
+                </td>
+                <td>
+                    ${action.bloquear}
+                </td>
+                <td>
+                    Imagen
+                </td>
+                <td>
+                    ${action.evitar}
+                </td>
+                <td>
+                    Imagen
+                </td>
+                <td>
+                    ${action.apoyar}
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

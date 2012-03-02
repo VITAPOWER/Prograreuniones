@@ -29,24 +29,24 @@ public class Participante {
         return apoyar;
     }
 
-    public void setApoyar(String apoyar) {
-        this.apoyar = Integer.parseInt(apoyar);
+    public void setApoyar(Integer apoyar) {
+        this.apoyar = apoyar;
     }
 
     public Integer getBloquear() {
         return bloquear;
     }
 
-    public void setBloquear(String bloquear) {
-        this.bloquear = Integer.parseInt(bloquear);
+    public void setBloquear(Integer bloquear) {
+        this.bloquear = bloquear;
     }
 
     public Integer getEvitar() {
         return evitar;
     }
 
-    public void setEvitar(String evitar) {
-        this.evitar = Integer.parseInt(evitar);
+    public void setEvitar(Integer evitar) {
+        this.evitar = evitar;
     }
 
     public Integer getIdreunion() {

@@ -24,6 +24,9 @@
 <action name="*logout" class="action.Logout" method="{1}">
     <result name="success">/menu.jsp</result>
 </action>
+<action name="*votacion" class="action.Votacion" method="{1}">
+    <result name="success">/votacion.jsp</result>
+</action>
 
 <!-- Add actions here -->
 </package>
