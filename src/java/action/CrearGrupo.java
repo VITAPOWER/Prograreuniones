@@ -190,11 +190,6 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         this.fechafin = fechafin;
     }
 
-    /*public void setFechafin(String fechafin) {
-        this.fechafin = new String[1];
-        this.fechafin[0] = fechafin;
-    }*/
-
     public String[] getFechainicio() {
         return fechainicio;
     }
@@ -203,10 +198,6 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         this.fechainicio = fechainicio;
     }
     
-    /*public void setFechainicio(String fechainicio) {
-        this.fechainicio = new String[1];
-        this.fechainicio[0] = fechainicio;
-    }*/
     //metodos que obtienen los arrays de invitados
     //
     public String[] getApoyar() {
