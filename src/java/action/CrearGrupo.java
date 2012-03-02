@@ -6,6 +6,7 @@ package action;
 
 import Daos.HorarioDAO;
 import Daos.ReunionDAO;
+import Daos.ParticipanteDAO;
 import Pojos.Reunion;
 import Pojos.Horario;
 import Pojos.Participante;
@@ -29,7 +30,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
     private String[] fechafin;
     
     //variables para participantes
-    private String[] mail;
+    private String[] email;
     private String[] bloquear;
     private String[] evitar;
     private String[] apoyar;
@@ -60,6 +61,18 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
             horario.setFechafin(fechafin[i]);
             horarioDAO.create(horario);
             i++;
+        }
+        
+        int j = 0;
+        for(String m : email){
+            ParticipanteDAO participanteDAO = new ParticipanteDAO();
+            participante.setIdreunion(reunion.getIdreuniones());
+            participante.setBloquear(bloquear[j]);
+            participante.setApoyar(apoyar[j]);
+            participante.setEvitar(evitar[j]);
+            participante.setEmail(m);
+            participanteDAO.create(participante);
+            j++;
         }
         return "successekis";
         
@@ -177,10 +190,10 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         this.fechafin = fechafin;
     }
 
-    public void setFechafin(String fechafin) {
+    /*public void setFechafin(String fechafin) {
         this.fechafin = new String[1];
         this.fechafin[0] = fechafin;
-    }
+    }*/
 
     public String[] getFechainicio() {
         return fechainicio;
@@ -190,10 +203,10 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         this.fechainicio = fechainicio;
     }
     
-    public void setFechainicio(String fechainicio) {
+    /*public void setFechainicio(String fechainicio) {
         this.fechainicio = new String[1];
         this.fechainicio[0] = fechainicio;
-    }
+    }*/
     //metodos que obtienen los arrays de invitados
     //
     public String[] getApoyar() {
@@ -220,11 +233,11 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         this.evitar = evitar;
     }
 
-    public String[] getMail() {
-        return mail;
+    public String[] getEmail() {
+        return email;
     }
 
-    public void setMail(String[] mail) {
-        this.mail = mail;
+    public void setEmail(String[] email) {
+        this.email = email;
     }
 }

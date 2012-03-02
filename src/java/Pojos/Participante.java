@@ -11,7 +11,7 @@ package Pojos;
 public class Participante {
     
     private Integer idparticipantes;
-    private Integer idusuario;
+    private String email;
     private Integer idreunion;
     private Integer bloquear;
     private Integer evitar;
@@ -29,24 +29,24 @@ public class Participante {
         return apoyar;
     }
 
-    public void setApoyar(Integer apoyar) {
-        this.apoyar = apoyar;
+    public void setApoyar(String apoyar) {
+        this.apoyar = Integer.parseInt(apoyar);
     }
 
     public Integer getBloquear() {
         return bloquear;
     }
 
-    public void setBloquear(Integer bloquear) {
-        this.bloquear = bloquear;
+    public void setBloquear(String bloquear) {
+        this.bloquear = Integer.parseInt(bloquear);
     }
 
     public Integer getEvitar() {
         return evitar;
     }
 
-    public void setEvitar(Integer evitar) {
-        this.evitar = evitar;
+    public void setEvitar(String evitar) {
+        this.evitar = Integer.parseInt(evitar);
     }
 
     public Integer getIdreunion() {
@@ -57,12 +57,12 @@ public class Participante {
         this.idreunion = idreunion;
     }
 
-    public Integer getIdusuario() {
-        return idusuario;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdusuario(Integer idusuario) {
-        this.idusuario = idusuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     

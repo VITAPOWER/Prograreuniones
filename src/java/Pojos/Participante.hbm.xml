@@ -5,7 +5,7 @@
   <id column="idparticipantes" name="idparticipantes" type="java.lang.Integer">
     <generator class="increment"/>
   </id>
-  <property name="idusuario" column="idusuario" type="java.lang.Integer"/>
+  <property name="email" column="email" type="java.lang.String"/>
   <property name="idreunion" column="idreunion" type="java.lang.Integer"/>
   <property name="bloquear" column="bloquear" type="java.lang.Integer"/>
   <property name="evitar" column="evitar" type="java.lang.Integer"/>

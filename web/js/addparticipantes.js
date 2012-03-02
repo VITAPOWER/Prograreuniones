@@ -54,7 +54,7 @@ function addparticipante(){
     label4.setAttribute("class", 'label');
     label4.setAttribute("id", 'label4' + contador_para_invitados);
     
-    box1.setAttribute("name", 'mail');
+    box1.setAttribute("name", 'email');
     box1.setAttribute("type", 'text');
     box1.setAttribute("id", 'invitado' + contador_para_invitados);
     
