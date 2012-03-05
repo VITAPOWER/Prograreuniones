@@ -25,14 +25,18 @@ public class Votacion extends ActionSupport{
     
     @Override
     public String execute() throws Exception {
-        participante.setEmail(email);
-        participante.setIdreunion(idreunion);
-        ParticipanteDAO participanteDAO = new ParticipanteDAO();
-        List<Participante> result = participanteDAO.findByExample(participante);
-        bloquear = result.get(0).getBloquear();
-        evitar = result.get(0).getEvitar();
-        apoyar = result.get(0).getApoyar();
-        return SUCCESS;
+        if((email != null)&&(idreunion != null)){
+            participante.setEmail(email);
+            participante.setIdreunion(idreunion);
+            ParticipanteDAO participanteDAO = new ParticipanteDAO();
+            List<Participante> result = participanteDAO.findByExample(participante);
+            bloquear = result.get(0).getBloquear();
+            evitar = result.get(0).getEvitar();
+            apoyar = result.get(0).getApoyar();
+            return SUCCESS;
+        }else{
+            return "regresalogin";
+        }
     }
     
     public Integer getApoyar() {
