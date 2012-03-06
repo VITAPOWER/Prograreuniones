@@ -9,31 +9,98 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Votar por horario</title>
     </head>
     <body>
-        <h1>${action.email}</h1>
+        <h1>Datos del usuario:</h1>
         <table>
             <tr>
                 <td>
-                    Imagen
+                    Correo electronico:  
                 </td>
                 <td>
-                    ${action.bloquear}
+                    ${action.email}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Reunion:  
                 </td>
                 <td>
-                    Imagen
+                    ${action.idreunion}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Horario:  
                 </td>
                 <td>
-                    ${action.evitar}
-                </td>
-                <td>
-                    Imagen
-                </td>
-                <td>
-                    ${action.apoyar}
+                    ${action.idhorario}
                 </td>
             </tr>
         </table>
-    </body>
+        <hr />
+        <%--Se debe de hacer una tabla dinamica para todos los horarios disponibles o un update panel --%>
+        <table>
+            <tr>
+                <td>
+                    Horario disponible
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   Fecha de inicio:
+                   ${action.horarioInicio} 
+                </td>
+                <td>
+                   Fecha de fin:
+                   ${action.horarioFin} 
+                </td>
+            </tr>
+        </table>
+
+        <hr />
+
+        <table>
+            <tr>
+                <td>
+            <s:form action="">
+                <input type="button" name="bloquear" value="Bloqueo" />
+                <s:submit />
+            </s:form>
+        </td>
+        <td>
+            Cantidad de "bloqueos" disponibles
+            ${action.bloquear}
+        </td>
+    </tr>
+    <tr>
+        <td>
+    <s:form action="">
+        <input type="button" name="bloquear" value="Evitar" />
+        <s:submit />
+    </s:form>
+</td>
+<td>
+    Cantidad de "evitar" disponibles
+    ${action.evitar}
+</td>
+</tr>
+<tr>
+    <td>
+<s:form action="">
+    <input type="button" name="bloquear" value="Apoyos">
+    <s:submit />
+</s:form>
+</td>
+<td>
+    Cantidad de "apoyos" disponible
+    ${action.apoyar}
+</td>
+</tr>
+</table>
+
+<hr />
+
+</body>
 </html>
