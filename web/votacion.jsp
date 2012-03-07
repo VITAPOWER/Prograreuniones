@@ -60,11 +60,11 @@
             <tr>
                 <td>
                    Fecha de inicio:
-                   ${action.horarioInicio} 
+                   ${action.fechaInicio} 
                 </td>
                 <td>
                    Fecha de fin:
-                   ${action.horarioFin} 
+                   ${action.fechaFin} 
                 </td>
             </tr>
         </table>

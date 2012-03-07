@@ -5,6 +5,9 @@
 package Daos;
 
 import Pojos.Horario;
+import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Example;
 
 /**
  *
@@ -12,3 +15,4 @@ import Pojos.Horario;
  */
 public class HorarioDAO extends GenericDAO<Horario, Integer> {
 }
+

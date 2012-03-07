@@ -26,8 +26,8 @@ public class Votacion extends ActionSupport{
     private Participante participante = new Participante();
     private Horario horario = new Horario();
     private Integer idhorario;
-    private Date horarioInicio;
-    private Date horarioFin;
+    private Date fechaInicio;
+    private Date fechaFin;
     
     
     @Override
@@ -41,13 +41,14 @@ public class Votacion extends ActionSupport{
             evitar = result.get(0).getEvitar();
             apoyar = result.get(0).getApoyar();
             
-            horario.setIdreunion(idreunion);
-            //horario.setIdhorario(idhorario);
             HorarioDAO horarioDAO = new HorarioDAO();
+            horario.setIdreunion(idreunion);
+            horario.setIdhorario(idhorario);
             List<Horario> resultHorario = horarioDAO.findByExample(horario);
             idhorario = resultHorario.get(0).getIdhorario();
-            horarioInicio = resultHorario.get(0).getFechainicio();
-            horarioFin = resultHorario.get(0).getFechafin();
+            fechaInicio = resultHorario.get(0).getFechainicio();
+            fechaFin = resultHorario.get(0).getFechafin();
+        
             
             return SUCCESS;
         }else{
@@ -101,4 +102,22 @@ public class Votacion extends ActionSupport{
     public void setIdhorario(Integer idhorario) {
         this.idhorario = idhorario;
     }
+    
+    /** test inicio**/
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+    /** test fin **/
+    
 }

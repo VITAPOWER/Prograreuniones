@@ -57,8 +57,8 @@ public class CrearGrupo extends ActionSupport implements ModelDriven{
         for(String hr : fechainicio){
             HorarioDAO horarioDAO = new HorarioDAO();
             horario.setIdreunion(reunion.getIdreuniones());
-            horario.setFechainicio(hr);
-            horario.setFechafin(fechafin[i]);
+            //horario.setFechainicio(hr);
+            //horario.setFechafin(fechafin[i]);
             horarioDAO.create(horario);
             i++;
         }
