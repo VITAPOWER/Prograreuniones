@@ -94,4 +94,11 @@ public class Votacion extends ActionSupport{
     public void setIdreunion(Integer idreunion){
         this.idreunion = idreunion;
     }
+    public Integer getIdhorario() {
+        return idhorario;
+    }
+
+    public void setIdhorario(Integer idhorario) {
+        this.idhorario = idhorario;
+    }
 }
