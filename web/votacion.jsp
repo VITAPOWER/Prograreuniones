@@ -28,18 +28,22 @@
                      *operacion 1 = bloqueo
                      *operacion 2 = evitar
                      *operacion 3 = apoyar
+                     *operacion 4 = reset
                      **/
                     
                     switch(opcion)
                     {
                         case 1:urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=1';
-                        alert("Caso1");
+                        //alert("Caso1");
                         break;
                         case 2:urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=2';
-                        alert("Caso2");
+                        //alert("Caso2");
                         break;
                         case 3:urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=3';
-                        alert("Caso3");
+                        //alert("Caso3");
+                        break;
+                        case 4:urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=4';
+                        //alert("Caso4");
                         break;
                         default: ;
                     }
