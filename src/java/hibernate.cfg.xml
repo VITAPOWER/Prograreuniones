@@ -11,5 +11,6 @@
     <mapping resource="Pojos/Reunion.hbm.xml"/>
     <mapping resource="Pojos/Horario.hbm.xml"/>
     <mapping resource="Pojos/Participante.hbm.xml"/>
+    <mapping resource="Pojos/Votos.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
