@@ -42,10 +42,12 @@ public class Votacion extends ActionSupport{
             apoyar = result.get(0).getApoyar();
             
             HorarioDAO horarioDAO = new HorarioDAO();
-            horario.setIdreunion(idreunion);
+            /**Solo funciona con un solo horario por reunion, es necesario hacer un ciclo y listado **/
+            //horario.setIdreunion(idreunion);
             horario.setIdhorario(idhorario);
             List<Horario> resultHorario = horarioDAO.findByExample(horario);
             idhorario = resultHorario.get(0).getIdhorario();
+            idreunion = resultHorario.get(0).getIdreunion();
             fechaInicio = resultHorario.get(0).getFechainicio();
             fechaFin = resultHorario.get(0).getFechafin();
         
