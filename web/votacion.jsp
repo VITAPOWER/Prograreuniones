@@ -103,7 +103,7 @@
                     <table>
                         <tr>
                             <td>
-                                <img alt="Bloquea un horario" src="images/votacion/round_delete.png" id="imgblock" height="48" width="48" onclick="window.location=pageReload(1)">
+                                <img alt="Bloquea un horario" src="images/votacion/round_delete.png" id="imgblock" height="48" width="48" onclick="window.location=pageReload(1)"> 
                             </td>
                             <td>
                                 <input type="text" id ="textblock" value="${action.bloquear}" size="2" name="textblock" />
