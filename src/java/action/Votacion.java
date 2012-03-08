@@ -31,7 +31,7 @@ public class Votacion extends ActionSupport {
     private Date fechaInicio;
     private Date fechaFin;
     private Integer operacion;
-    private Votos nuevoVoto= new Votos();
+    private Votos nuevoVoto = new Votos();
 
     @Override
     public String execute() throws Exception {
@@ -47,33 +47,45 @@ public class Votacion extends ActionSupport {
             HorarioDAO horarioDAO = new HorarioDAO();
             /**
              * Solo funciona con un solo horario por reunion, es necesario hacer
-             * un ciclo y listado *
+             * un ciclo y un arreglo que pueda meterse en el jsp
              */
             //horario.setIdreunion(idreunion);
             horario.setIdhorario(idhorario);
             List<Horario> resultHorario = horarioDAO.findByExample(horario);
+            
             idhorario = resultHorario.get(0).getIdhorario();
             idreunion = resultHorario.get(0).getIdreunion();
             fechaInicio = resultHorario.get(0).getFechainicio();
             fechaFin = resultHorario.get(0).getFechafin();
 
-            /*
-             * operacion 1 = bloqueo; operacion 2 = evitar; operacion 3 =
-             * apoyar; operacion 4 = reset
+            /* ciclo con for each para los horarios
+             * for (Horario horario : resultHorario) { 
+             * idhorario =horario.getIdhorario(); 
+             * idreunion = horario.getIdreunion();
+             * fechaInicio = horario.getFechainicio(); 
+             * fechaFin = horario.getFechafin();
+             * } 
+             * /
+              
+             /* operacion 1 = bloqueo; operacion 2
+             * = evitar; operacion 3 = apoyar; operacion 4 = reset
              */
 
             if (operacion != null) {
-                
-                
-                
+
+                VotosDAO votosDao = new VotosDAO();
+
                 switch (operacion) {
-                    case 1:nuevoVoto.setBloquearGastado(1);
+                    case 1:
+                        nuevoVoto.setBloquearGastado(1);
                         ;
                         break;
-                    case 2:nuevoVoto.setEvitarGastado(1);
+                    case 2:
+                        nuevoVoto.setEvitarGastado(1);
                         ;
                         break;
-                    case 3:nuevoVoto.setApoyarGastado(1);
+                    case 3:
+                        nuevoVoto.setApoyarGastado(1);
                         ;
                         break;
                     case 4:
@@ -82,6 +94,7 @@ public class Votacion extends ActionSupport {
                     default:
                         ;
                 }
+                votosDao.create(nuevoVoto);
             }
             return SUCCESS;
         } else {
