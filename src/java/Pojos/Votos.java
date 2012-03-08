@@ -34,9 +34,9 @@ public class Votos extends ActionSupport {
         List<Votos> resultVotos = VotosDAO.findByExample(voto);
 
         //ciclo para borrar los votos dentro del listado resultVotos
-       for (Votos voto : resultVotos)
+       for (Votos votoTemp : resultVotos)
        {
-        VotosDAO.delete(voto);
+        VotosDAO.delete(votoTemp);
        }       
     }
 

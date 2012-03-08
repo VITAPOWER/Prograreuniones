@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="Pojos.Votos" table="votos">
-    <id column="idusuario" name="idusuario" type="java.lang.Integer" />
-    <id column="idhorario" name="idhorario" type="java.lang.Integer" />
-    <id column="idreunion" name="idreunion" type="java.lang.Integer" />
-    <generator class="increment"/>
-  </id>
-  <property name="bloqueargastado" column="nombre" type="java.lang.Integer"/>
-  <property name="evitargastado" column="username" type="java.lang.Integer"/>
-  <property name="apoyargastado" column="password" type="java.lang.Integer"/>
-  </class>
+    <class name="Pojos.Votos" table="votos">
+    <id column="idVotos" name="idVotos" type="java.lang.Integer" />
+        <generator class="increment"/>
+    </id>
+    <property name="idusuario" column="idusuario" type="java.lang.Integer" />
+    <property name="idhorario" column="idhorario" type="java.lang.Integer" />
+    <property name="idreunion" column="idreunion" type="java.lang.Integer" />
+    <property name="bloqueargastado" column="nombre" type="java.lang.Integer"/>
+    <property name="evitargastado" column="username" type="java.lang.Integer"/>
+    <property name="apoyargastado" column="password" type="java.lang.Integer"/>
+</class>
 </hibernate-mapping>
