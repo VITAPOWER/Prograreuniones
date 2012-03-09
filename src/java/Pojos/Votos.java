@@ -28,7 +28,7 @@ public class Votos extends ActionSupport {
      * resetea todos los votos que pertenecen a al horario por medio de borrar
      * fisico a todos los registros (votos) generados
      */
-    public static void borrarVotos(Integer idHorario) {
+    public void borrarVotos(Integer idHorario) {
         Votos voto = new Votos();
         voto.setIdHorario(idHorario);
         VotosDAO VotosDAO = new VotosDAO();
@@ -37,7 +37,8 @@ public class Votos extends ActionSupport {
         //ciclo para borrar los votos dentro del listado resultVotos
        for (Votos votoTemp : resultVotos)
        {
-        VotosDAO.delete(votoTemp);
+        VotosDAO VotosDAO1 = new VotosDAO();
+        VotosDAO1.delete(votoTemp);
        }       
     }
 

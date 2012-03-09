@@ -123,7 +123,7 @@
                                 <input type="text" id ="textsupport" value="${action.apoyar}" size="2" name="textsupport"/>
                             </td>
                             <td>
-                                <input type="button" value="Reset" id="Reset" name="Reset"/>
+                                <input type="button" value="Reset" id="Reset" name="Reset" onclick="window.location=pageReload(4)"/>
                             </td>
                         </tr>
                     </table>

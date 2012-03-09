@@ -52,6 +52,7 @@ public class Votacion extends ActionSupport {
              */
             //horario.setIdreunion(idreunion);
             horario.setIdhorario(idhorario);
+            horario.setIdreunion(idreunion);
             List<Horario> resultHorario = horarioDAO.findByExample(horario);
 
             idhorario = resultHorario.get(0).getIdhorario();
@@ -64,10 +65,12 @@ public class Votacion extends ActionSupport {
             ejemploVoto.setIdReunion(idreunion);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
 
-            for (Votos votoTemp : resultVotos) {
-                bloquear += -votoTemp.getBloquearGastado();
-                evitar += -votoTemp.getEvitarGastado();
-                apoyar += -votoTemp.getApoyarGastado();
+            if (operacion != null && operacion != 4) {
+                for (Votos votoTemp : resultVotos) {
+                    bloquear += -votoTemp.getBloquearGastado();
+                    evitar += -votoTemp.getEvitarGastado();
+                    apoyar += -votoTemp.getApoyarGastado();
+                }
             }
 
             if (operacion != null) {
@@ -106,7 +109,7 @@ public class Votacion extends ActionSupport {
                         }
                         break;
                     case 4:
-                        ;
+                        nuevoVoto.borrarVotos(idhorario);
                         break;
                     default:
                         ;
