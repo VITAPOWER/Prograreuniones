@@ -4,11 +4,6 @@
     Author     : Carolina
 --%>
 
-<%-- 
-    Document   : index
-    Created on : Feb 5, 2012, 3:33:48 PM
-    Author     : snidE
---%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
