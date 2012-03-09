@@ -65,13 +65,16 @@ public class Votacion extends ActionSupport {
             ejemploVoto.setIdReunion(idreunion);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
 
-            if (operacion != null && operacion != 4) {
-                for (Votos votoTemp : resultVotos) {
+            //revisar porque puse esto
+           /* if (operacion != null && operacion != 4) {
+                
+            }*/
+            
+            for (Votos votoTemp : resultVotos) {
                     bloquear += -votoTemp.getBloquearGastado();
                     evitar += -votoTemp.getEvitarGastado();
                     apoyar += -votoTemp.getApoyarGastado();
                 }
-            }
 
             if (operacion != null) {
 
