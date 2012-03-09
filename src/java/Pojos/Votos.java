@@ -14,21 +14,22 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class Votos extends ActionSupport {
 
-    private Integer idvoto;
+    private Integer idvotos;
     private Integer idusuario;
     private Integer idhorario;
     private Integer idreunion;
     private Integer bloqueargastado;
     private Integer evitargastado;
     private Integer apoyargastado;
-    private Votos voto = new Votos();
+    //
 
     //metodos adicionales
     /*
      * resetea todos los votos que pertenecen a al horario por medio de borrar
      * fisico a todos los registros (votos) generados
      */
-    public void borrarVotos(Integer idHorario) {
+    public static void borrarVotos(Integer idHorario) {
+        Votos voto = new Votos();
         voto.setIdHorario(idHorario);
         VotosDAO VotosDAO = new VotosDAO();
         List<Votos> resultVotos = VotosDAO.findByExample(voto);
@@ -42,8 +43,9 @@ public class Votos extends ActionSupport {
 
     //borrar fisico del registro individual
     public void borrarVoto(Integer idHorario, Integer idVoto) {
+        Votos voto = new Votos();
         voto.setIdHorario(idHorario);
-        voto.setIdVoto(idVoto);
+        voto.setIdVotos(idVoto);
         VotosDAO VotosDAO = new VotosDAO();
         List<Votos> resultVotos = VotosDAO.findByExample(voto);
         
@@ -52,9 +54,9 @@ public class Votos extends ActionSupport {
         VotosDAO.delete(voto);
     }
 
-    // metodos get
-    public void setIdVoto(Integer idvoto) {
-        this.idvoto = idvoto;
+    // metodos set
+    public void setIdVotos(Integer idvotos) {
+        this.idvotos = idvotos;
     }
 
     public void setIdUsuario(Integer idusuario) {
@@ -81,9 +83,9 @@ public class Votos extends ActionSupport {
         this.apoyargastado = apoyargastado;
     }
 
-    // metodos set
-    public Integer getIdVoto() {
-        return idvoto;
+    // metodos get
+    public Integer getIdVotos() {
+        return idvotos;
     }
 
     public Integer getIdUsuario() {
