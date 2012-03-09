@@ -54,6 +54,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
         ReunionDAO reunionDAO = new ReunionDAO();
         reunionDAO.create(reunion);
 
+        //reparar, los gets y set de horario fechas se cambiaron a dates en lugar de strings
         int i = 0;
         for (String hr : fechainicio) {
             HorarioDAO horarioDAO = new HorarioDAO();
@@ -64,8 +65,6 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
             i++;
         }
 
-        // voto = resultVotos.get(0);
-        //VotosDAO.delete(voto);
 
         Usuario usuario = new Usuario();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
