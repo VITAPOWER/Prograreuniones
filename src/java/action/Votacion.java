@@ -32,6 +32,7 @@ public class Votacion extends ActionSupport {
     private Date fechaFin;
     private Integer operacion;
     private Votos nuevoVoto = new Votos();
+    private Votos ejemploVoto = new Votos();
 
     @Override
     public String execute() throws Exception {
@@ -52,44 +53,56 @@ public class Votacion extends ActionSupport {
             //horario.setIdreunion(idreunion);
             horario.setIdhorario(idhorario);
             List<Horario> resultHorario = horarioDAO.findByExample(horario);
-            
+
             idhorario = resultHorario.get(0).getIdhorario();
             idreunion = resultHorario.get(0).getIdreunion();
             fechaInicio = resultHorario.get(0).getFechainicio();
             fechaFin = resultHorario.get(0).getFechafin();
 
-            /* ciclo con for each para los horarios
-             * for (Horario horario : resultHorario) { 
-             * idhorario =horario.getIdhorario(); 
-             * idreunion = horario.getIdreunion();
-             * fechaInicio = horario.getFechainicio(); 
-             * fechaFin = horario.getFechafin();
-             * } 
-             * /
-              
-             /* operacion 1 = bloqueo; operacion 2
-             * = evitar; operacion 3 = apoyar; operacion 4 = reset
+
+            //asignar puntos segun los votos correspondients
+            VotosDAO votosDao = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            List<Votos> resultVotos = votosDao.findByExample(ejemploVoto);
+
+            for (Votos votoTemp : resultVotos) {
+                bloquear += - votoTemp.getBloquearGastado();
+                evitar += - votoTemp.getEvitarGastado();
+                apoyar += - votoTemp.getApoyarGastado();
+            }
+            /*
+             * ciclo con for each para los horarios for (Horario horario :
+             * resultHorario) { idhorario =horario.getIdhorario(); idreunion =
+             * horario.getIdreunion(); fechaInicio = horario.getFechainicio();
+             * fechaFin = horario.getFechafin(); } /
+             *
+             * /* operacion 1 = bloqueo; operacion 2 = evitar; operacion 3 =
+             * apoyar; operacion 4 = reset
              */
 
             if (operacion != null) {
 
-                VotosDAO votosDao = new VotosDAO();
-                nuevoVoto.setIdUsuario(participante.getIdparticipantes());
+                //VotosDAO votosDao = new VotosDAO();
+                //solo funciona con 1 participante, se tiene que cambiar
+                nuevoVoto.setIdUsuario(result.get(0).getIdparticipantes());
                 nuevoVoto.setIdReunion(idreunion);
                 nuevoVoto.setIdHorario(idhorario);
 
                 switch (operacion) {
                     case 1:
                         nuevoVoto.setBloquearGastado(1);
-                        ;
+                        nuevoVoto.setEvitarGastado(0);
+                        nuevoVoto.setApoyarGastado(0);
                         break;
                     case 2:
+                        nuevoVoto.setBloquearGastado(0);
                         nuevoVoto.setEvitarGastado(1);
-                        ;
+                        nuevoVoto.setApoyarGastado(0);
                         break;
                     case 3:
+                        nuevoVoto.setBloquearGastado(0);
+                        nuevoVoto.setEvitarGastado(0);
                         nuevoVoto.setApoyarGastado(1);
-                        ;
                         break;
                     case 4:
                         ;
@@ -108,12 +121,12 @@ public class Votacion extends ActionSupport {
     public Integer getApoyar() {
         return apoyar;
     }
-    
+
     public Integer getOperacion() {
         return operacion;
     }
-    
-     public void setOperacion(Integer operacion) {
+
+    public void setOperacion(Integer operacion) {
         this.operacion = operacion;
     }
 
