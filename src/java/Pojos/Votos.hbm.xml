@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Pojos.Votos" table="votos">
+    <id column="idvotos" name="idVotos" type="java.lang.Integer">
+        <generator class="increment"/>
+    </id>
+    <property name="idUsuario" column="idusuario" type="java.lang.Integer" />
+    <property name="idHorario" column="idhorario" type="java.lang.Integer" />
+    <property name="idReunion" column="idreunion" type="java.lang.Integer" />
+    <property name="bloquearGastado" column="bloquearGastado" type="java.lang.Integer"/>
+    <property name="evitarGastado" column="evitarGastado" type="java.lang.Integer"/>
+    <property name="apoyarGastado" column="apoyarGastado" type="java.lang.Integer"/>
+</class>
+</hibernate-mapping>

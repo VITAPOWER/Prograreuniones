@@ -88,7 +88,7 @@
                                 <td><s:a action="creargrupo">Crear Reunión</s:a></td>
                             </tr>
                             <tr>
-                                <td><s:a>Mis Grupos</s:a></td>
+                                <td><s:a action="votacion">Votacion</s:a></td>
                             </tr>
                         </tbody>
                     </table>

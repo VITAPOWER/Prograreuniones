@@ -23,20 +23,22 @@ public class Horario {
         return fechafin;
     }
 
-    public void setFechafin(String fechafin) throws ParseException {
-        DateFormat formatter;
+    public void setFechafin(Date fechafin) throws ParseException {
+        /**DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
-        this.fechafin = (Date) formatter.parse(fechafin);
+        this.fechafin = (Date) formatter.parse(fechafin);**/
+        this.fechafin = fechafin;
     }
 
     public Date getFechainicio() {
         return fechainicio;
     }
     
-    public void setFechainicio(String fechainicio) throws ParseException {
-        DateFormat formatter;
+    public void setFechainicio(Date fechainicio) throws ParseException {
+        /**DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
-        this.fechainicio = (Date) formatter.parse(fechainicio);
+        this.fechainicio = (Date) formatter.parse(fechainicio);**/
+        this.fechainicio=fechainicio;
     }
 
     public Integer getIdhorario() {
