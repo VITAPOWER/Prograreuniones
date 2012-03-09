@@ -58,18 +58,7 @@ public class Votacion extends ActionSupport {
             idreunion = resultHorario.get(0).getIdreunion();
             fechaInicio = resultHorario.get(0).getFechainicio();
             fechaFin = resultHorario.get(0).getFechafin();
-
-
-            //asignar puntos segun los votos correspondients
-            VotosDAO votosDao = new VotosDAO();
-            ejemploVoto.setIdReunion(idreunion);
-            List<Votos> resultVotos = votosDao.findByExample(ejemploVoto);
-
-            for (Votos votoTemp : resultVotos) {
-                bloquear += - votoTemp.getBloquearGastado();
-                evitar += - votoTemp.getEvitarGastado();
-                apoyar += - votoTemp.getApoyarGastado();
-            }
+      
             /*
              * ciclo con for each para los horarios for (Horario horario :
              * resultHorario) { idhorario =horario.getIdhorario(); idreunion =
@@ -84,6 +73,7 @@ public class Votacion extends ActionSupport {
 
                 //VotosDAO votosDao = new VotosDAO();
                 //solo funciona con 1 participante, se tiene que cambiar
+                VotosDAO votosDao = new VotosDAO();
                 nuevoVoto.setIdUsuario(result.get(0).getIdparticipantes());
                 nuevoVoto.setIdReunion(idreunion);
                 nuevoVoto.setIdHorario(idhorario);
@@ -112,6 +102,18 @@ public class Votacion extends ActionSupport {
                 }
                 votosDao.create(nuevoVoto);
             }
+
+             //asignar puntos segun los votos correspondients
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            
+            for (Votos votoTemp : resultVotos) {
+                bloquear += - votoTemp.getBloquearGastado();
+                evitar += - votoTemp.getEvitarGastado();
+                apoyar += - votoTemp.getApoyarGastado();
+            }
+            
             return SUCCESS;
         } else {
             return "regresalogin";
