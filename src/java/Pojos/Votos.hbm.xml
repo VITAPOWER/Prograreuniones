@@ -8,8 +8,8 @@
     <property name="idUsuario" column="idusuario" type="java.lang.Integer" />
     <property name="idHorario" column="idhorario" type="java.lang.Integer" />
     <property name="idReunion" column="idreunion" type="java.lang.Integer" />
-    <property name="bloquearGastado" column="nombre" type="java.lang.Integer"/>
-    <property name="evitarGastado" column="username" type="java.lang.Integer"/>
-    <property name="apoyarGastado" column="password" type="java.lang.Integer"/>
+    <property name="bloquearGastado" column="bloquearGastado" type="java.lang.Integer"/>
+    <property name="evitarGastado" column="evitarGastado" type="java.lang.Integer"/>
+    <property name="apoyarGastado" column="apoyarGastado" type="java.lang.Integer"/>
 </class>
 </hibernate-mapping>

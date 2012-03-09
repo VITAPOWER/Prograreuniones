@@ -74,6 +74,9 @@ public class Votacion extends ActionSupport {
             if (operacion != null) {
 
                 VotosDAO votosDao = new VotosDAO();
+                nuevoVoto.setIdUsuario(participante.getIdparticipantes());
+                nuevoVoto.setIdReunion(idreunion);
+                nuevoVoto.setIdHorario(idhorario);
 
                 switch (operacion) {
                     case 1:
@@ -104,6 +107,14 @@ public class Votacion extends ActionSupport {
 
     public Integer getApoyar() {
         return apoyar;
+    }
+    
+    public Integer getOperacion() {
+        return operacion;
+    }
+    
+     public void setOperacion(Integer operacion) {
+        this.operacion = operacion;
     }
 
     public void setApoyar(Integer apoyar) {
