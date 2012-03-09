@@ -58,21 +58,20 @@ public class Votacion extends ActionSupport {
             idreunion = resultHorario.get(0).getIdreunion();
             fechaInicio = resultHorario.get(0).getFechainicio();
             fechaFin = resultHorario.get(0).getFechafin();
-      
-            /*
-             * ciclo con for each para los horarios for (Horario horario :
-             * resultHorario) { idhorario =horario.getIdhorario(); idreunion =
-             * horario.getIdreunion(); fechaInicio = horario.getFechainicio();
-             * fechaFin = horario.getFechafin(); } /
-             *
-             * /* operacion 1 = bloqueo; operacion 2 = evitar; operacion 3 =
-             * apoyar; operacion 4 = reset
-             */
+
+            //asignar puntos segun los votos correspondients
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+
+            for (Votos votoTemp : resultVotos) {
+                bloquear += -votoTemp.getBloquearGastado();
+                evitar += -votoTemp.getEvitarGastado();
+                apoyar += -votoTemp.getApoyarGastado();
+            }
 
             if (operacion != null) {
 
-                //VotosDAO votosDao = new VotosDAO();
-                //solo funciona con 1 participante, se tiene que cambiar
                 VotosDAO votosDao = new VotosDAO();
                 nuevoVoto.setIdUsuario(result.get(0).getIdparticipantes());
                 nuevoVoto.setIdReunion(idreunion);
@@ -80,19 +79,31 @@ public class Votacion extends ActionSupport {
 
                 switch (operacion) {
                     case 1:
-                        nuevoVoto.setBloquearGastado(1);
-                        nuevoVoto.setEvitarGastado(0);
-                        nuevoVoto.setApoyarGastado(0);
+                        if (bloquear >= 1) {
+                            nuevoVoto.setBloquearGastado(1);
+                            nuevoVoto.setEvitarGastado(0);
+                            nuevoVoto.setApoyarGastado(0);
+                            votosDao.create(nuevoVoto);
+                            bloquear--;
+                        }
                         break;
                     case 2:
-                        nuevoVoto.setBloquearGastado(0);
-                        nuevoVoto.setEvitarGastado(1);
-                        nuevoVoto.setApoyarGastado(0);
+                        if (evitar >= 1) {
+                            nuevoVoto.setBloquearGastado(0);
+                            nuevoVoto.setEvitarGastado(1);
+                            nuevoVoto.setApoyarGastado(0);
+                            votosDao.create(nuevoVoto);
+                            evitar--;
+                        }
                         break;
                     case 3:
-                        nuevoVoto.setBloquearGastado(0);
-                        nuevoVoto.setEvitarGastado(0);
-                        nuevoVoto.setApoyarGastado(1);
+                        if (apoyar >= 1) {
+                            nuevoVoto.setBloquearGastado(0);
+                            nuevoVoto.setEvitarGastado(0);
+                            nuevoVoto.setApoyarGastado(1);
+                            votosDao.create(nuevoVoto);
+                            apoyar--;
+                        }
                         break;
                     case 4:
                         ;
@@ -100,20 +111,9 @@ public class Votacion extends ActionSupport {
                     default:
                         ;
                 }
-                votosDao.create(nuevoVoto);
+
             }
 
-             //asignar puntos segun los votos correspondients
-            VotosDAO votosDaoEjemplo = new VotosDAO();
-            ejemploVoto.setIdReunion(idreunion);
-            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
-            
-            for (Votos votoTemp : resultVotos) {
-                bloquear += - votoTemp.getBloquearGastado();
-                evitar += - votoTemp.getEvitarGastado();
-                apoyar += - votoTemp.getApoyarGastado();
-            }
-            
             return SUCCESS;
         } else {
             return "regresalogin";
