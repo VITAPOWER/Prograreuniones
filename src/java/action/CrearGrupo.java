@@ -15,10 +15,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.HashMap;
 import java.util.Map;
-import Pojos.Usuario;
-import Daos.UsuarioDAO;
-import java.util.List;
-import java.util.Set;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Carolina/Eder
@@ -56,23 +54,31 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
 
         //reparar, los gets y set de horario fechas se cambiaron a dates en lugar de strings
         int i = 0;
-        for (String hr : fechainicio) {
+        for (String hr1 : fechainicio) {
+            Date hrinicio;
+            Date hrfin;
+            SimpleDateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             HorarioDAO horarioDAO = new HorarioDAO();
             horario.setIdreunion(reunion.getIdreuniones());
-            //horario.setFechainicio(hr);
-            //horario.setFechafin(fechafin[i]);
+            
+            hrinicio = (Date)formatter.parse(hr1);
+            horario.setFechainicio(hrinicio);
+            
+            hrfin = (Date) formatter.parse(fechafin[i]);
+            horario.setFechafin(hrfin);
             horarioDAO.create(horario);
             i++;
         }
 
 
-        Usuario usuario = new Usuario();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        //Usuario usuario = new Usuario();
+        //UsuarioDAO usuarioDAO = new UsuarioDAO();
         
         int j = 0;
         for (String m : email) {
-            usuario.setEmail(m);
-            List<Usuario> resultUsuarios = usuarioDAO.findByExample(usuario);
+            //usuario.setEmail(m);
+            //List<Usuario> resultUsuarios = usuarioDAO.findByExample(usuario);
 
             ParticipanteDAO participanteDAO = new ParticipanteDAO();
             participante.setIdreunion(reunion.getIdreuniones());
@@ -80,7 +86,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
             participante.setApoyar(apoyar[j]);
             participante.setEvitar(evitar[j]);
             participante.setEmail(m);
-            participante.setIdparticipantes(resultUsuarios.get(0).getIdusuario());
+            //participante.setIdparticipantes(resultUsuarios.get(0).getIdusuario());
             
             participanteDAO.create(participante);
             j++;
