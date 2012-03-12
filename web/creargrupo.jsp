@@ -14,9 +14,9 @@
         <title>Crear Reunión</title>
         <script type="text/javascript" src="js/addhorario.js"></script>
         <script type="text/javascript" src="js/addparticipantes.js"></script>
-        <script type="text/javascript" src="js/validatetime.js"></script>
         <script type="text/javascript" src="js/datetimepicker.js"></script>
         <script type="text/javascript" src="js/addcalendars.js"></script>
+        <script type="text/javascript" src="js/validaciones.js"></script>
     </head>
     <body id="top">
         <div class="wrapper col1">
@@ -49,7 +49,7 @@
                     <br /><br />
                     <br /><br />
         
-                    <s:form action="darcreargrupo">
+                    <s:form  name="crearReunion" action="darcreargrupo" method="post" onsubmit ="return  validacion()">
                         <s:textfield label="Nombre de Grupo" name="nombrereunion"/>
                         <s:textfield label="Hora de apertura" name="tiempocreacion" id="tiempocreacion"/>
                         <s:textfield label="Tiempo limite" name="tiemporestante" id="tiemporestante"/>
