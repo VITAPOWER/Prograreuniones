@@ -45,8 +45,8 @@ public class Reunion {
     }
 
     public void setTiempocreacion(String tiempocreacion) throws ParseException {
-        DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+        SimpleDateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.tiempocreacion = (Date) formatter.parse(tiempocreacion);
     }
 
@@ -56,7 +56,7 @@ public class Reunion {
 
     public void setTiemporestante(String tiemporestante) throws ParseException{
         DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.tiemporestante = (Date) formatter.parse(tiemporestante);
     }
 

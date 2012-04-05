@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+
 /**
  * @author Carolina/Eder
  */
@@ -87,6 +88,18 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
             participante.setEvitar(evitar[j]);
             participante.setEmail(m);
             //participante.setIdparticipantes(resultUsuarios.get(0).getIdusuario());
+            //mandar mail a cada email registrado
+            Mail mensajemail = new Mail();
+            String subject = "Invitacion para la reunion " + reunion.getNombrereunion() + " creada por " + session.get("nombreusuario");
+            String body = "Buen día " + m + ", este correo es para informarte que haz sido invitado \n" +
+                    "a una reunion en el sitio ProgAReuniones para que decidas que horario prefieres \n" +
+                    "la liga para acceder es la siguiente: \n\n" +
+                    "http://localhost:8084/PrograReuniones/votacion.action?email="+m+"&idreunion="+reunion.getIdreuniones() +
+                    " \n\n" + 
+                    "La liga permanecerá abierta de " + reunion.getTiempocreacion() + " hasta " + reunion.getTiemporestante() + " \n" +
+                    "para acceder al resultado final de la votación, solo es necesario ver el resultado en la liga anterior \n" +
+                    "ya que el tiempo de la reunion haya terminado \nSaludos cordiales les desea el equipo de ProgAReuniones";
+            mensajemail.SendEmail(m, "progareuniones@gmail.com", "smtp.gmail.com", subject, body);
             
             participanteDAO.create(participante);
             j++;

@@ -2,6 +2,8 @@
     Document   : creargrupo
     Created on : 8/02/2012, 04:00:26 PM
     Author     : Carolina
+
+<
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
