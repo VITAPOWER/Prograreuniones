@@ -5,7 +5,7 @@
     <id column="idvotos" name="idVotos" type="java.lang.Integer">
         <generator class="increment"/>
     </id>
-    <property name="idUsuario" column="idusuario" type="java.lang.Integer" />
+    <property name="idUsuario" column="idusuario" type="java.lang.String" />
     <property name="idHorario" column="idhorario" type="java.lang.Integer" />
     <property name="idReunion" column="idreunion" type="java.lang.Integer" />
     <property name="bloquearGastado" column="bloquearGastado" type="java.lang.Integer"/>

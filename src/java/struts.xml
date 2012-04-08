@@ -27,6 +27,11 @@
 <action name="*votacion" class="action.Votacion" method="{1}">
     <result name="success">/votacion.jsp</result>
     <result name="regresalogin">/index.jsp</result>
+    <result name="calendar">/calendar.jsp</result>
+</action>
+<action name="*pushtest" class="action.PushTest" method="{1}">
+    <result name="success">/votacion.jsp</result>
+    <result name="regresalogin">/index.jsp</result>
 </action>
 
 <!-- Add actions here -->

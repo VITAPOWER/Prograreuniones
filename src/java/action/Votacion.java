@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import Pojos.Votos;
 import Daos.VotosDAO;
+import calendar.Event;
+import com.google.gson.Gson;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -33,9 +36,38 @@ public class Votacion extends ActionSupport {
     private Integer operacion;
     private Votos nuevoVoto = new Votos();
     private Votos ejemploVoto = new Votos();
+    private String jason;
 
     @Override
     public String execute() throws Exception {
+        if ((email != null) && (idreunion != null)) {
+            //Sacamos cuantos votos puede realizar
+            participante.setEmail(email);
+            participante.setIdreunion(idreunion);
+            ParticipanteDAO participanteDAO = new ParticipanteDAO();
+            List<Participante> result = participanteDAO.findByExample(participante);
+            if (!result.isEmpty()) {
+                bloquear = result.get(0).getBloquear();
+                evitar = result.get(0).getEvitar();
+                apoyar = result.get(0).getApoyar();
+            }
+            //Cuantos votos ha gastado
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            ejemploVoto.setIdUsuario(email);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            for (Votos voto : resultVotos) {//Se le resta lo que gasto en cada horario
+                bloquear -= voto.getBloquearGastado();
+                evitar -= voto.getEvitarGastado();
+                apoyar -= voto.getEvitarGastado();
+            }
+            return SUCCESS;
+        } else {
+            return "regresalogin";
+        }
+    }
+
+    public String executetemp() throws Exception {
         if ((email != null) && (idreunion != null)) {
             participante.setEmail(email);
             participante.setIdreunion(idreunion);
@@ -67,17 +99,17 @@ public class Votacion extends ActionSupport {
 
             //revisar porque puse esto
             if (operacion == null || operacion != 4) {
-               for (Votos votoTemp : resultVotos) {
+                for (Votos votoTemp : resultVotos) {
                     bloquear += -votoTemp.getBloquearGastado();
                     evitar += -votoTemp.getEvitarGastado();
                     apoyar += -votoTemp.getApoyarGastado();
-                } 
+                }
             }
 
             if (operacion != null) {
 
                 VotosDAO votosDao = new VotosDAO();
-                nuevoVoto.setIdUsuario(result.get(0).getIdparticipantes());
+                nuevoVoto.setIdUsuario(email);
                 nuevoVoto.setIdReunion(idreunion);
                 nuevoVoto.setIdHorario(idhorario);
 
@@ -122,6 +154,39 @@ public class Votacion extends ActionSupport {
         } else {
             return "regresalogin";
         }
+    }
+
+    public String buildCalendar() throws Exception {
+        if ((email != null) && (idreunion != null)) {
+            horario.setIdreunion(idreunion);
+            HorarioDAO horarioDAO = new HorarioDAO();
+            List<Horario> resultHorario = horarioDAO.findByExample(horario);
+            int id = 0;
+            jason = "";
+            for (Horario i : resultHorario) {
+                jason += "\"" + id + "\",";
+                id++;
+                SimpleDateFormat formatter;
+                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Event newob = new Event(i.getIdhorario(), "algunevento", formatter.format(i.getFechainicio()), formatter.format(i.getFechafin()));
+                jason += new Gson().toJson(newob) + ",";
+            }
+        }
+        jason = jason.substring(0, jason.length() - 1);
+        return "calendar";
+    }
+    
+    public String votoApoyar() throws Exception {
+        
+        return SUCCESS;
+    }
+    public String votoEvitar() throws Exception {
+        
+        return SUCCESS;
+    }
+    public String votoBloquear() throws Exception {
+        
+        return SUCCESS;
     }
 
     public Integer getApoyar() {
@@ -180,9 +245,6 @@ public class Votacion extends ActionSupport {
         this.idhorario = idhorario;
     }
 
-    /**
-     * test inicio*
-     */
     public Date getFechaInicio() {
         return fechaInicio;
     }
@@ -198,7 +260,12 @@ public class Votacion extends ActionSupport {
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
-    /**
-     * test fin *
-     */
+
+    public String getJason() {
+        return jason;
+    }
+
+    public void setJason(String jason) {
+        this.jason = jason;
+    }
 }

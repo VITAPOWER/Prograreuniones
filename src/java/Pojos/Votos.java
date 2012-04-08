@@ -15,7 +15,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class Votos extends ActionSupport {
 
     private Integer idvotos;
-    private Integer idusuario;
+    private String idusuario;
     private Integer idhorario;
     private Integer idreunion;
     private Integer bloqueargastado;
@@ -60,7 +60,7 @@ public class Votos extends ActionSupport {
         this.idvotos = idvotos;
     }
 
-    public void setIdUsuario(Integer idusuario) {
+    public void setIdUsuario(String idusuario) {
         this.idusuario = idusuario;
     }
 
@@ -89,7 +89,7 @@ public class Votos extends ActionSupport {
         return idvotos;
     }
 
-    public Integer getIdUsuario() {
+    public String getIdUsuario() {
         return idusuario;
     }
 
