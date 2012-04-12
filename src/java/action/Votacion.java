@@ -16,6 +16,7 @@ import Daos.VotosDAO;
 import calendar.Event;
 import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
+import nl.justobjects.pushlet.core.Dispatcher;
 
 /**
  *
@@ -34,7 +35,6 @@ public class Votacion extends ActionSupport {
     private Date fechaInicio;
     private Date fechaFin;
     private Integer operacion;
-    private Votos nuevoVoto = new Votos();
     private Votos ejemploVoto = new Votos();
     private String jason;
 
@@ -59,97 +59,8 @@ public class Votacion extends ActionSupport {
             for (Votos voto : resultVotos) {//Se le resta lo que gasto en cada horario
                 bloquear -= voto.getBloquearGastado();
                 evitar -= voto.getEvitarGastado();
-                apoyar -= voto.getEvitarGastado();
+                apoyar -= voto.getApoyarGastado();
             }
-            return SUCCESS;
-        } else {
-            return "regresalogin";
-        }
-    }
-
-    public String executetemp() throws Exception {
-        if ((email != null) && (idreunion != null)) {
-            participante.setEmail(email);
-            participante.setIdreunion(idreunion);
-            ParticipanteDAO participanteDAO = new ParticipanteDAO();
-            List<Participante> result = participanteDAO.findByExample(participante);
-            bloquear = result.get(0).getBloquear();
-            evitar = result.get(0).getEvitar();
-            apoyar = result.get(0).getApoyar();
-
-            HorarioDAO horarioDAO = new HorarioDAO();
-            /**
-             * Solo funciona con un solo horario por reunion, es necesario hacer
-             * un ciclo y un arreglo que pueda meterse en el jsp
-             */
-            //horario.setIdreunion(idreunion);
-            horario.setIdhorario(idhorario);
-            horario.setIdreunion(idreunion);
-            List<Horario> resultHorario = horarioDAO.findByExample(horario);
-
-            idhorario = resultHorario.get(0).getIdhorario();
-            idreunion = resultHorario.get(0).getIdreunion();
-            fechaInicio = resultHorario.get(0).getFechainicio();
-            fechaFin = resultHorario.get(0).getFechafin();
-
-            //asignar puntos segun los votos correspondients
-            VotosDAO votosDaoEjemplo = new VotosDAO();
-            ejemploVoto.setIdReunion(idreunion);
-            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
-
-            //revisar porque puse esto
-            if (operacion == null || operacion != 4) {
-                for (Votos votoTemp : resultVotos) {
-                    bloquear += -votoTemp.getBloquearGastado();
-                    evitar += -votoTemp.getEvitarGastado();
-                    apoyar += -votoTemp.getApoyarGastado();
-                }
-            }
-
-            if (operacion != null) {
-
-                VotosDAO votosDao = new VotosDAO();
-                nuevoVoto.setIdUsuario(email);
-                nuevoVoto.setIdReunion(idreunion);
-                nuevoVoto.setIdHorario(idhorario);
-
-                switch (operacion) {
-                    case 1:
-                        if (bloquear >= 1) {
-                            nuevoVoto.setBloquearGastado(1);
-                            nuevoVoto.setEvitarGastado(0);
-                            nuevoVoto.setApoyarGastado(0);
-                            votosDao.create(nuevoVoto);
-                            bloquear--;
-                        }
-                        break;
-                    case 2:
-                        if (evitar >= 1) {
-                            nuevoVoto.setBloquearGastado(0);
-                            nuevoVoto.setEvitarGastado(1);
-                            nuevoVoto.setApoyarGastado(0);
-                            votosDao.create(nuevoVoto);
-                            evitar--;
-                        }
-                        break;
-                    case 3:
-                        if (apoyar >= 1) {
-                            nuevoVoto.setBloquearGastado(0);
-                            nuevoVoto.setEvitarGastado(0);
-                            nuevoVoto.setApoyarGastado(1);
-                            votosDao.create(nuevoVoto);
-                            apoyar--;
-                        }
-                        break;
-                    case 4:
-                        nuevoVoto.borrarVotos(idhorario);
-                        break;
-                    default:
-                        ;
-                }
-
-            }
-
             return SUCCESS;
         } else {
             return "regresalogin";
@@ -164,28 +75,117 @@ public class Votacion extends ActionSupport {
             int id = 0;
             jason = "";
             for (Horario i : resultHorario) {
+                String color = "blue";
+                apoyar = 0;
+                evitar = 0;
+                bloquear = 0;
                 jason += "\"" + id + "\",";
                 id++;
                 SimpleDateFormat formatter;
                 formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Event newob = new Event(i.getIdhorario(), "algunevento", formatter.format(i.getFechainicio()), formatter.format(i.getFechafin()));
+                ejemploVoto = new Votos();
+                ejemploVoto.setIdHorario(i.getIdhorario());
+                ejemploVoto.setIdReunion(idreunion);
+                VotosDAO votosDaoEjemplo = new VotosDAO();
+                List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+                for (Votos voto : resultVotos) {
+                    apoyar += voto.getApoyarGastado();
+                    evitar += voto.getEvitarGastado();
+                    bloquear += voto.getBloquearGastado();
+                }
+                if (evitar > apoyar) {
+                    color = "gray";
+                }
+                if (bloquear > 0) {
+                    color = "red";
+                }
+                Event newob = new Event(i.getIdhorario(),
+                        "\n" + "Apoyando:" + apoyar + "\n" + "Evitando:" + evitar + "\n" + "Bloqueando:" + bloquear,
+                        formatter.format(i.getFechainicio()),
+                        formatter.format(i.getFechafin()),
+                        color);
                 jason += new Gson().toJson(newob) + ",";
             }
         }
         jason = jason.substring(0, jason.length() - 1);
         return "calendar";
     }
-    
+
     public String votoApoyar() throws Exception {
-        
+        if ((email != null) && (idreunion != null)) {
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            ejemploVoto.setIdUsuario(email);
+            ejemploVoto.setIdHorario(idhorario);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            if (resultVotos.isEmpty()) {
+                ejemploVoto.setApoyarGastado(1);
+                ejemploVoto.setEvitarGastado(0);
+                ejemploVoto.setBloquearGastado(0);
+                votosDaoEjemplo = new VotosDAO();
+                votosDaoEjemplo.create(ejemploVoto);
+            } else {
+                for (Votos voto : resultVotos) {
+                    votosDaoEjemplo = new VotosDAO();
+                    voto.setApoyarGastado(voto.getApoyarGastado() + 1);
+                    votosDaoEjemplo.update(voto);
+                }
+            }
+            nl.justobjects.pushlet.core.Event event = nl.justobjects.pushlet.core.Event.createDataEvent("/calendar" + idreunion);
+            Dispatcher.getInstance().multicast(event);
+        }
         return SUCCESS;
     }
+
     public String votoEvitar() throws Exception {
-        
+        if ((email != null) && (idreunion != null)) {
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            ejemploVoto.setIdUsuario(email);
+            ejemploVoto.setIdHorario(idhorario);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            if (resultVotos.isEmpty()) {
+                ejemploVoto.setApoyarGastado(0);
+                ejemploVoto.setEvitarGastado(1);
+                ejemploVoto.setBloquearGastado(0);
+                votosDaoEjemplo = new VotosDAO();
+                votosDaoEjemplo.create(ejemploVoto);
+            } else {
+                for (Votos voto : resultVotos) {
+                    votosDaoEjemplo = new VotosDAO();
+                    voto.setEvitarGastado(voto.getEvitarGastado() + 1);
+                    votosDaoEjemplo.update(voto);
+                }
+            }
+            nl.justobjects.pushlet.core.Event event = nl.justobjects.pushlet.core.Event.createDataEvent("/calendar" + idreunion);
+            Dispatcher.getInstance().multicast(event);
+        }
         return SUCCESS;
     }
+
     public String votoBloquear() throws Exception {
-        
+        if ((email != null) && (idreunion != null)) {
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            ejemploVoto.setIdUsuario(email);
+            ejemploVoto.setIdHorario(idhorario);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            if (resultVotos.isEmpty()) {
+                ejemploVoto.setApoyarGastado(0);
+                ejemploVoto.setEvitarGastado(0);
+                ejemploVoto.setBloquearGastado(1);
+                votosDaoEjemplo = new VotosDAO();
+                votosDaoEjemplo.create(ejemploVoto);
+            } else {
+                for (Votos voto : resultVotos) {
+                    votosDaoEjemplo = new VotosDAO();
+                    voto.setBloquearGastado(voto.getBloquearGastado() + 1);
+                    votosDaoEjemplo.update(voto);
+                }
+            }
+            nl.justobjects.pushlet.core.Event event = nl.justobjects.pushlet.core.Event.createDataEvent("/calendar" + idreunion);
+            Dispatcher.getInstance().multicast(event);
+        }
         return SUCCESS;
     }
 

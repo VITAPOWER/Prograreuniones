@@ -12,11 +12,13 @@ public class Event {
     private int id = 222;
     private String end = "2012-04-22";
     private String start = "2012-04-20";
+    private String color = "blue";
 
-    public Event(int id, String title, String start, String end) {
+    public Event(int id, String title, String start, String end, String color) {
         this.id = id;
         this.title = title;
         this.start = start;
         this.end = end;
+        this.color = color;
     }
 }

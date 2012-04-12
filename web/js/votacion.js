@@ -1,48 +1,12 @@
-                
-function pageReload(opcion)
-{
-    var urlCompleto;
-                    
-    /*,email,reunion, horario
-     *operacion 1 = bloqueo
-     *operacion 2 = evitar
-     *operacion 3 = apoyar
-     *operacion 4 = reset
-     **/
-                    
-    switch(opcion)
-    {
-        case 1:
-            urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=1';
-            //alert("Caso1");
-            break;
-        case 2:
-            urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=2';
-            //alert("Caso2");
-            break;
-        case 3:
-            urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=3';
-            //alert("Caso3");
-            break;
-        case 4:
-            urlCompleto = 'http://localhost:8084/PrograReuniones/votacion.action?email=${action.email}&idreunion=${action.idreunion}&idhorario=${action.idhorario}&operacion=4';
-            //alert("Caso4");
-            break;
-        default:
-            ;
-    }
-    return urlCompleto;
-}
-
 // Initialization
 function init() {
-    p_join_listen('/calendar');
+    p_join_listen('/calendar' + document.getElementById("idreunion").value);
 }
 
 // Event Callback: display all events
 function onEvent(event) {
-//RefreshCalendar
-    
+    //RefreshCalendar
+    $('#calendar').fullCalendar( 'refetchEvents' );
 }
 
 
@@ -79,6 +43,9 @@ $(document).ready(function() {
                 }
             }
         });
+        if($(this).data("voto") == 0) {
+            $(this).draggable( "option", "disabled", true );
+        }
         i++;	
     });
 	
@@ -114,8 +81,6 @@ $(document).ready(function() {
         eventRender: 
         function(event, element) {//Our events -> from eventSources
             element.droppable({
-                activeClass: 'droppable-active',
-                hoverClass: 'droppable-hover',
                 drop: function(e, ui){ 
                     ui.draggable.data("voto", ui.draggable.data("voto") - 1);
                     ui.draggable.html( ui.draggable.data("voto") + " " + ui.draggable.data("uitext"));
@@ -126,9 +91,6 @@ $(document).ready(function() {
                         email: document.getElementById("email").value,
                         idhorario: event.id
                     } );
-                /*if(ui.draggable.data("voto") == 0) {
-                        ui.draggable( "option", "disabled", true );
-                    }*/
                 }//Actions
             })
         }
