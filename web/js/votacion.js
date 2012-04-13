@@ -24,6 +24,10 @@ $(document).ready(function() {
     votos[0] = document.getElementById("apoyar").value;
     votos[1] = document.getElementById("evitar").value;
     votos[2] = document.getElementById("bloquear").value;
+    var colors = new Array();
+    colors[0] = "Blue";
+    colors[1] = "Gray";
+    colors[2] = "Red";
     i = 0
     $('#external-events div.external-event').each(function() {
 		
@@ -46,6 +50,7 @@ $(document).ready(function() {
         if($(this).data("voto") == 0) {
             $(this).draggable( "option", "disabled", true );
         }
+        $(this).css("background-color", colors[i]);
         i++;	
     });
 	
@@ -95,5 +100,41 @@ $(document).ready(function() {
             })
         }
     });
-		
+    
+    $('#countdown').countdown({
+        until: new Date(document.getElementById("fechaFin").value), 
+        //format: 'dHM', 
+        onExpiry: liftOff
+    });
+    if (new Date() > new Date(document.getElementById("fechaFin").value)) {
+        liftOff();
+    }
 });
+
+function resetVotos (){
+    $.get( "resetMyVotesvotacion", 
+    {
+        idreunion: document.getElementById("idreunion").value,
+        email: document.getElementById("email").value
+    } );
+    var votos = new Array();
+    votos[0] = document.getElementById("resetApoyar").value;
+    votos[1] = document.getElementById("resetEvitar").value;
+    votos[2] = document.getElementById("resetBloquear").value;
+    i = 0
+    $('#external-events div.external-event').each(function() {
+        $(this).data('voto', votos[i]);
+        $(this).html( $(this).data('voto') + " " +  $(this).data('uitext'));
+        if($(this).data("voto") > 0) {
+            $(this).draggable( "option", "disabled", false );
+        }
+        i++;
+    });
+}
+
+function liftOff() { //El tiempo termino deshabilita todo
+    $('#external-events div.external-event').each(function() {
+        $(this).draggable( "option", "disabled", true );
+    });
+    document.getElementById("reset").disabled = true;
+} 

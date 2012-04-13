@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-
 /**
  * @author Carolina/Eder
  */
@@ -31,6 +30,9 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
     //variables para horario
     private String[] fechainicio;
     private String[] fechafin;
+    //variables para el horario de votacion
+    private String tiempocreacion;
+    private String tiemporestante;
     //variables para participantes
     private String[] email;
     private Integer[] bloquear;
@@ -47,10 +49,15 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
     public String dar() throws Exception {
         Map session = ActionContext.getContext().getSession();
 
+        SimpleDateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        reunion.setTiempocreacion((Date) formatter.parse(tiempocreacion));
+        reunion.setTiemporestante((Date) formatter.parse(tiemporestante));
         reunion.setIdusuariocreador((Integer) session.get("idusuario"));
         reunion.setStatus(5);
 
         ReunionDAO reunionDAO = new ReunionDAO();
+        
         reunionDAO.create(reunion);
 
         //reparar, los gets y set de horario fechas se cambiaron a dates en lugar de strings
@@ -58,14 +65,13 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
         for (String hr1 : fechainicio) {
             Date hrinicio;
             Date hrfin;
-            SimpleDateFormat formatter;
-            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
             HorarioDAO horarioDAO = new HorarioDAO();
             horario.setIdreunion(reunion.getIdreuniones());
-            
-            hrinicio = (Date)formatter.parse(hr1);
+
+            hrinicio = (Date) formatter.parse(hr1);
             horario.setFechainicio(hrinicio);
-            
+
             hrfin = (Date) formatter.parse(fechafin[i]);
             horario.setFechafin(hrfin);
             horarioDAO.create(horario);
@@ -75,7 +81,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
 
         //Usuario usuario = new Usuario();
         //UsuarioDAO usuarioDAO = new UsuarioDAO();
-        
+
         int j = 0;
         for (String m : email) {
             //usuario.setEmail(m);
@@ -91,16 +97,16 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
             //mandar mail a cada email registrado
             Mail mensajemail = new Mail();
             String subject = "Invitacion para la reunion " + reunion.getNombrereunion() + " creada por " + session.get("nombreusuario");
-            String body = "Buen día " + m + ", este correo es para informarte que haz sido invitado \n" +
-                    "a una reunion en el sitio ProgAReuniones para que decidas que horario prefieres \n" +
-                    "la liga para acceder es la siguiente: \n\n" +
-                    "http://localhost:8084/PrograReuniones/votacion.action?email="+m+"&idreunion="+reunion.getIdreuniones() +
-                    " \n\n" + 
-                    "La liga permanecerá abierta de " + reunion.getTiempocreacion() + " hasta " + reunion.getTiemporestante() + " \n" +
-                    "para acceder al resultado final de la votación, solo es necesario ver el resultado en la liga anterior \n" +
-                    "ya que el tiempo de la reunion haya terminado \nSaludos cordiales les desea el equipo de ProgAReuniones";
+            String body = "Buen día " + m + ", este correo es para informarte que haz sido invitado \n"
+                    + "a una reunion en el sitio ProgAReuniones para que decidas que horario prefieres \n"
+                    + "la liga para acceder es la siguiente: \n\n"
+                    + "http://localhost:8084/PrograReuniones/votacion.action?email=" + m + "&idreunion=" + reunion.getIdreuniones()
+                    + " \n\n"
+                    + "La liga permanecerá abierta de " + reunion.getTiempocreacion() + " hasta " + reunion.getTiemporestante() + " \n"
+                    + "para acceder al resultado final de la votación, solo es necesario ver el resultado en la liga anterior \n"
+                    + "ya que el tiempo de la reunion haya terminado \nSaludos cordiales les desea el equipo de ProgAReuniones";
             mensajemail.SendEmail(m, "progareuniones@gmail.com", "smtp.gmail.com", subject, body);
-            
+
             participanteDAO.create(participante);
             j++;
         }
@@ -258,5 +264,21 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
 
     public void setEmail(String[] email) {
         this.email = email;
+    }
+
+    public String getTiempocreacion() {
+        return tiempocreacion;
+    }
+
+    public void setTiempocreacion(String tiempocreacion) {
+        this.tiempocreacion = tiempocreacion;
+    }
+
+    public String getTiemporestante() {
+        return tiemporestante;
+    }
+
+    public void setTiemporestante(String tiemporestante) {
+        this.tiemporestante = tiemporestante;
     }
 }

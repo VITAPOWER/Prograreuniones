@@ -44,20 +44,16 @@ public class Reunion {
         return tiempocreacion;
     }
 
-    public void setTiempocreacion(String tiempocreacion) throws ParseException {
-        SimpleDateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.tiempocreacion = (Date) formatter.parse(tiempocreacion);
+    public void setTiempocreacion(Date tiempocreacion) throws ParseException {
+        this.tiempocreacion = tiempocreacion;
     }
 
     public Date getTiemporestante() {
         return tiemporestante;
     }
 
-    public void setTiemporestante(String tiemporestante) throws ParseException{
-        DateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.tiemporestante = (Date) formatter.parse(tiemporestante);
+    public void setTiemporestante(Date tiemporestante) throws ParseException{
+        this.tiemporestante = tiemporestante;
     }
 
     public Integer getIdusuariocreador() {

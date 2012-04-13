@@ -6,6 +6,7 @@ package action;
 
 import Daos.HorarioDAO;
 import Daos.ParticipanteDAO;
+import Daos.ReunionDAO;
 import Pojos.Horario;
 import Pojos.Participante;
 import com.opensymphony.xwork2.ActionSupport;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import Pojos.Votos;
 import Daos.VotosDAO;
+import Pojos.Reunion;
 import calendar.Event;
 import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
@@ -27,13 +29,15 @@ public class Votacion extends ActionSupport {
     private Integer bloquear;
     private Integer evitar;
     private Integer apoyar;
+    private Integer resetBloquear;
+    private Integer resetEvitar;
+    private Integer resetApoyar;
     private Integer idreunion;
     private String email;
     private Participante participante = new Participante();
     private Horario horario = new Horario();
     private Integer idhorario;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private String fechaFin;
     private Integer operacion;
     private Votos ejemploVoto = new Votos();
     private String jason;
@@ -50,6 +54,9 @@ public class Votacion extends ActionSupport {
                 bloquear = result.get(0).getBloquear();
                 evitar = result.get(0).getEvitar();
                 apoyar = result.get(0).getApoyar();
+                resetBloquear = result.get(0).getBloquear();
+                resetEvitar = result.get(0).getEvitar();
+                resetApoyar = result.get(0).getApoyar();
             }
             //Cuantos votos ha gastado
             VotosDAO votosDaoEjemplo = new VotosDAO();
@@ -61,6 +68,11 @@ public class Votacion extends ActionSupport {
                 evitar -= voto.getEvitarGastado();
                 apoyar -= voto.getApoyarGastado();
             }
+            ReunionDAO reunionDAO = new ReunionDAO();
+            Reunion reunionHora = reunionDAO.findById(idreunion);
+            SimpleDateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+            fechaFin = formatter.format(reunionHora.getTiemporestante());
             return SUCCESS;
         } else {
             return "regresalogin";
@@ -189,6 +201,25 @@ public class Votacion extends ActionSupport {
         return SUCCESS;
     }
 
+    public String resetMyVotes() {
+        if ((email != null) && (idreunion != null)) {
+            VotosDAO votosDaoEjemplo = new VotosDAO();
+            ejemploVoto.setIdReunion(idreunion);
+            ejemploVoto.setIdUsuario(email);
+            List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            for (Votos voto : resultVotos) {
+                votosDaoEjemplo = new VotosDAO();
+                voto.setApoyarGastado(0);
+                voto.setEvitarGastado(0);
+                voto.setBloquearGastado(0);
+                votosDaoEjemplo.update(voto);
+            }
+            nl.justobjects.pushlet.core.Event event = nl.justobjects.pushlet.core.Event.createDataEvent("/calendar" + idreunion);
+            Dispatcher.getInstance().multicast(event);
+        }
+        return SUCCESS;
+    }
+
     public Integer getApoyar() {
         return apoyar;
     }
@@ -245,19 +276,11 @@ public class Votacion extends ActionSupport {
         this.idhorario = idhorario;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -267,5 +290,29 @@ public class Votacion extends ActionSupport {
 
     public void setJason(String jason) {
         this.jason = jason;
+    }
+
+    public Integer getResetApoyar() {
+        return resetApoyar;
+    }
+
+    public void setResetApoyar(Integer resetApoyar) {
+        this.resetApoyar = resetApoyar;
+    }
+
+    public Integer getResetBloquear() {
+        return resetBloquear;
+    }
+
+    public void setResetBloquear(Integer resetBloquear) {
+        this.resetBloquear = resetBloquear;
+    }
+
+    public Integer getResetEvitar() {
+        return resetEvitar;
+    }
+
+    public void setResetEvitar(Integer resetEvitar) {
+        this.resetEvitar = resetEvitar;
     }
 }
