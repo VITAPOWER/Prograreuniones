@@ -1,12 +1,34 @@
+/*
+ *Proyecto: Programa Reuniones para Ramon Brena
+ * 
+ *Alumnos/Autores que participaron:
+ *Adrián M Morales 615525                                                   
+ *Eder Ramírez 796598
+ *Daniel Sánchez 617763
+ *Carolina Flores 617680
+ * 
+ *Materia: Proyecto Integrador 9nvo semestre
+ *Profesor: Dr.Lorena Gomez y Dr.Juan Carlos Lavariega
+ *
+ * Nombre de archivo: Event.java
+ * Fecha Ultima Modificacion: Abril, 30, 2012
+ * 
+ * 
+ * Descripcion: objeto evento dentro del calendario (javascript).
+ */
+
+/*Paquete:
+ * Nombrar paquete al que pertenece el archivo.
+ */
 package calendar;
 
-/**
+/*
  * El objeto evento dentro del calendario javascript
  *
- * @author snidE
  */
 public class Event {
 
+    //declarar variables globales
     private String allDay = "";
     private String title = "Event2";
     private int id = 222;
