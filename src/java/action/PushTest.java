@@ -33,7 +33,10 @@ import nl.justobjects.pushlet.core.Event;
  * importar pojos
  */
 import Pojos.Usuario;
-
+/*
+ * Inicio de la clase: 
+ * Descripcion: esta clase permite hacer un push
+ */
 public class PushTest extends ActionSupport implements ModelDriven {
     /*
      * Declaraciond e variables globales.
