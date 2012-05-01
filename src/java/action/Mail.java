@@ -10,7 +10,7 @@
  *Materia: Proyecto Integrador 9nvo semestre
  *Profesor: Dr.Lorena Gomez y Dr.Juan Carlos Lavariega
  *
- * Nombre de archivo: Votacion.java
+ * Nombre de archivo: Mail.java
  * Fecha Ultima Modificacion: Abril, 30, 2012
  * 
  * Descripcion: clase para mandar correos electronicos.
