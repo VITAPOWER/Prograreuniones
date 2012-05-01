@@ -48,7 +48,8 @@ import Pojos.Votos;
 import Pojos.Reunion;
 
 /*
- * Inicio de la clase: Descripcion: esta clase permite la votacion de horarios
+ * Inicio de la clase: 
+ * Descripcion: esta clase permite la votacion de horarios
  * por parte de los participantes.
  */
 public class Votacion extends ActionSupport {
