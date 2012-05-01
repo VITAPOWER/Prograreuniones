@@ -1,15 +1,36 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *Proyecto: Programa Reuniones para Ramon Brena
+ * 
+ *Alumnos/Autores que participaron:
+ *Adrián M Morales 615525                                                   
+ *Eder Ramírez 796598
+ *Daniel Sánchez 617763
+ *Carolina Flores 617680
+ * 
+ *Materia: Proyecto Integrador 9nvo semestre
+ *Profesor: Dr.Lorena Gomez y Dr.Juan Carlos Lavariega
+ *
+ * Nombre de archivo: CrearGrupo.java
+ * Fecha Ultima Modificacion: Abril, 30, 2012
+ * 
+ * 
+ * Descripcion: clase para crear un grupo.
+ */
+
+/*Paquete:
+ * Nombrar paquete al que pertenece el archivo.
  */
 package action;
 
+//importar Daos.
 import Daos.HorarioDAO;
 import Daos.ReunionDAO;
 import Daos.ParticipanteDAO;
+//importar pojos.
 import Pojos.Reunion;
 import Pojos.Horario;
 import Pojos.Participante;
+//importar librerias.
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -18,8 +39,9 @@ import java.util.Map;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-/**
- * @author Carolina/Eder
+/*
+ * Inicio de la clase: 
+ * Descripcion: esta clase permite crear un nuevo grupo
  */
 public class CrearGrupo extends ActionSupport implements ModelDriven {
 
@@ -60,8 +82,8 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
         
         reunionDAO.create(reunion);
 
-        //reparar, los gets y set de horario fechas se cambiaron a dates en lugar de strings
         int i = 0;
+        //crear fecha inicio para los horarios.
         for (String hr1 : fechainicio) {
             Date hrinicio;
             Date hrfin;
@@ -83,6 +105,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
         //UsuarioDAO usuarioDAO = new UsuarioDAO();
 
         int j = 0;
+        //asignar lo votos al usuario por medio del correo electronico.
         for (String m : email) {
             //usuario.setEmail(m);
             //List<Usuario> resultUsuarios = usuarioDAO.findByExample(usuario);
@@ -114,7 +137,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
 
     }
 
-    // Define error messages
+    // Definir errores
     public void jspInit() {
         errorMap.put(CrearGrupo.ERR_NOMBREGRUPO_ENTER, "Introduzca el nombre del grupo");
         errorMap.put(CrearGrupo.ERR_NOMBREGRUPO_INVALID, "Nombre de grupo invalido, no exceda mas de 20 caracteres o escriba caracteres especiales");
@@ -162,7 +185,7 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
     }
 
     /*
-     * Form validation and processing
+     * validaciones de forma y procesos.
      */
     public boolean isValid() {
         // Clear all errors
@@ -214,71 +237,73 @@ public class CrearGrupo extends ActionSupport implements ModelDriven {
         return reunion;
     }
 
-    //metodos para obtener el array de horarios
-    //cantidad de horarios debe ser > 1 para que funcione
+    /*metodos para obtener el array de horarios
+    *cantidad de horarios debe ser > 1 para que funcione
+    */
+    
+    //Metodos get    
     public String[] getFechafin() {
         return fechafin;
-    }
-
-    public void setFechafin(String[] fechafin) {
-        this.fechafin = fechafin;
     }
 
     public String[] getFechainicio() {
         return fechainicio;
     }
 
-    public void setFechainicio(String[] fechainicio) {
-        this.fechainicio = fechainicio;
-    }
-
-    //metodos que obtienen los arrays de invitados
-    //
     public Integer[] getApoyar() {
         return apoyar;
-    }
-
-    public void setApoyar(Integer[] apoyar) {
-        this.apoyar = apoyar;
     }
 
     public Integer[] getBloquear() {
         return bloquear;
     }
 
-    public void setBloquear(Integer[] bloquear) {
-        this.bloquear = bloquear;
-    }
-
     public Integer[] getEvitar() {
         return evitar;
-    }
-
-    public void setEvitar(Integer[] evitar) {
-        this.evitar = evitar;
     }
 
     public String[] getEmail() {
         return email;
     }
 
-    public void setEmail(String[] email) {
-        this.email = email;
-    }
-
     public String getTiempocreacion() {
         return tiempocreacion;
-    }
-
-    public void setTiempocreacion(String tiempocreacion) {
-        this.tiempocreacion = tiempocreacion;
     }
 
     public String getTiemporestante() {
         return tiemporestante;
     }
 
+    //metodos set
     public void setTiemporestante(String tiemporestante) {
         this.tiemporestante = tiemporestante;
+    }
+
+    public void setTiempocreacion(String tiempocreacion) {
+        this.tiempocreacion = tiempocreacion;
+    }
+
+    public void setEmail(String[] email) {
+        this.email = email;
+    }
+
+    public void setEvitar(Integer[] evitar) {
+        this.evitar = evitar;
+    }
+
+    public void setBloquear(Integer[] bloquear) {
+        this.bloquear = bloquear;
+    }
+    
+    public void setApoyar(Integer[] apoyar) {
+        this.apoyar = apoyar;
+    }
+    
+    public void setFechainicio(String[] fechainicio) {
+        this.fechainicio = fechainicio;
+    }
+
+    public void setFechafin(String[] fechafin) {
+        this.fechafin = fechafin;
     }
 }
