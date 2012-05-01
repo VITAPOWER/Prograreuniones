@@ -28,8 +28,8 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 /*
- * Inicio de la clase: Descripcion: esta clase permite la votacion de horarios
- * por parte de los participantes.
+ * Inicio de la clase: 
+ * Descripcion: esta clase permite el envio de correos electronicos.
  */
 
 public class Mail {
