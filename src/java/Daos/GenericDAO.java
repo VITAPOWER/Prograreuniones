@@ -12,7 +12,6 @@ import org.hibernate.criterion.Example;
 
 /**
  * Metodo de interfaz generico con la base de datos se puede aplicar a cualquier pojo
- * @author snidE
  */
 public class GenericDAO<T, PK extends Serializable> {
 
