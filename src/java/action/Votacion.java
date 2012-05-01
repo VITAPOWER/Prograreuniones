@@ -12,6 +12,9 @@
  *
  * Nombre de archivo: Votacion.java
  * Fecha Ultima Modificacion: Abril, 30, 2012
+ * 
+ * 
+ * Descripcion: clase para hacer un voto en el calendario.
  */
 
 /*Paquete:
