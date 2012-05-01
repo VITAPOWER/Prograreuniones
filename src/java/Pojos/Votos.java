@@ -1,19 +1,36 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *Proyecto: Programa Reuniones para Ramon Brena
+ * 
+ *Alumnos/Autores que participaron:
+ *Adrián M Morales 615525                                                   
+ *Eder Ramírez 796598
+ *Daniel Sánchez 617763
+ *Carolina Flores 617680
+ * 
+ *Materia: Proyecto Integrador 9nvo semestre
+ *Profesor: Dr.Lorena Gomez y Dr.Juan Carlos Lavariega
+ *
+ * Nombre de archivo: Votacion.java
+ * Fecha Ultima Modificacion: Abril, 30, 2012
+ * 
+ * 
+ * Descripcion: clase para hacer un voto en el calendario.
+ */
+
+/*Paquete:
+ * Nombrar paquete al que pertenece el archivo.
  */
 package Pojos;
 
-import java.util.List;
+//importar Daos
 import Daos.VotosDAO;
+//importar librerias
+import java.util.List;
 import com.opensymphony.xwork2.ActionSupport;
 
-/**
- *
- * @author Chain
- */
 public class Votos extends ActionSupport {
 
+    //declarar variables globales
     private Integer idvotos;
     private String idusuario;
     private Integer idhorario;
