@@ -1,31 +1,59 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *Proyecto: Programa Reuniones para Ramon Brena
+ * 
+ *Alumnos/Autores que participaron:
+ *Adrián M Morales 615525                                                   
+ *Eder Ramírez 796598
+ *Daniel Sánchez 617763
+ *Carolina Flores 617680
+ * 
+ *Materia: Proyecto Integrador 9nvo semestre
+ *Profesor: Dr.Lorena Gomez y Dr.Juan Carlos Lavariega
+ *
+ * Nombre de archivo: Votacion.java
+ * Fecha Ultima Modificacion: Abril, 30, 2012
+ */
+
+/*Paquete:
+ * Nombrar paquete al que pertenece el archivo.
  */
 package action;
+/*
+ * Librerias: Importar librerias utilizadas
+ */
 
+import java.util.Date;
+import java.util.List;
+import java.text.SimpleDateFormat;
+import calendar.Event;
+import com.google.gson.Gson;
+import com.opensymphony.xwork2.ActionSupport;
+import nl.justobjects.pushlet.core.Dispatcher;
+/*
+ * Daos: Importar Daos utilizados.
+ */
 import Daos.HorarioDAO;
 import Daos.ParticipanteDAO;
 import Daos.ReunionDAO;
+import Daos.VotosDAO;
+/*
+ * Pojos: Importar Pojos utilizados.
+ */
 import Pojos.Horario;
 import Pojos.Participante;
-import com.opensymphony.xwork2.ActionSupport;
-import java.util.Date;
-import java.util.List;
 import Pojos.Votos;
-import Daos.VotosDAO;
 import Pojos.Reunion;
-import calendar.Event;
-import com.google.gson.Gson;
-import java.text.SimpleDateFormat;
-import nl.justobjects.pushlet.core.Dispatcher;
 
-/**
- *
- * @author Carolina
+/*
+ * Inicio de la clase: Descripcion: esta clase permite la votacion de horarios
+ * por parte de los participantes.
  */
 public class Votacion extends ActionSupport {
 
+    /*
+     * Declaraciond e variables globales.
+     */
+    //Variables de tipo: Integer
     private Integer bloquear;
     private Integer evitar;
     private Integer apoyar;
@@ -33,24 +61,37 @@ public class Votacion extends ActionSupport {
     private Integer resetEvitar;
     private Integer resetApoyar;
     private Integer idreunion;
+    private Integer operacion;
+    private Integer idhorario;
+    //Variables de tipo: String
     private String email;
+    private String fechaFin;
+    private String jason;
+    //Declaracion de clases utilizadas.
+    private Votos ejemploVoto = new Votos();
     private Participante participante = new Participante();
     private Horario horario = new Horario();
-    private Integer idhorario;
-    private String fechaFin;
-    private Integer operacion;
-    private Votos ejemploVoto = new Votos();
-    private String jason;
 
+    //Metodo principal de la clase.
     @Override
     public String execute() throws Exception {
+        /*
+         * Se revisa que la direccion tenga un correo elctronico y un
+         * identificador para la reunion. En caso de no contener se regresa a la
+         * pantalla de login/inicio
+         */
         if ((email != null) && (idreunion != null)) {
-            //Sacamos cuantos votos puede realizar
+            /*
+             * Buscamos el participante indicado y sacamos cuantos votos puede
+             * realizar.
+             */
             participante.setEmail(email);
             participante.setIdreunion(idreunion);
             ParticipanteDAO participanteDAO = new ParticipanteDAO();
             List<Participante> result = participanteDAO.findByExample(participante);
+            //Se revisa la existencia del participante.
             if (!result.isEmpty()) {
+                //Se le asigna los votos que tiene.
                 bloquear = result.get(0).getBloquear();
                 evitar = result.get(0).getEvitar();
                 apoyar = result.get(0).getApoyar();
@@ -63,11 +104,13 @@ public class Votacion extends ActionSupport {
             ejemploVoto.setIdReunion(idreunion);
             ejemploVoto.setIdUsuario(email);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
-            for (Votos voto : resultVotos) {//Se le resta lo que gasto en cada horario
+            for (Votos voto : resultVotos) {
+                //Se le resta lo que gasto en cada horario
                 bloquear -= voto.getBloquearGastado();
                 evitar -= voto.getEvitarGastado();
                 apoyar -= voto.getApoyarGastado();
             }
+            //Se obtiene el hora del horario seleccionado.
             ReunionDAO reunionDAO = new ReunionDAO();
             Reunion reunionHora = reunionDAO.findById(idreunion);
             SimpleDateFormat formatter;
@@ -79,13 +122,20 @@ public class Votacion extends ActionSupport {
         }
     }
 
+    //Metodo para construir el calendario.
     public String buildCalendar() throws Exception {
+        /*
+         * Se revisa que la direccion tenga un correo elctronico y un
+         * identificador para la reunion.
+         */
         if ((email != null) && (idreunion != null)) {
+            //localizamos el horario.
             horario.setIdreunion(idreunion);
             HorarioDAO horarioDAO = new HorarioDAO();
             List<Horario> resultHorario = horarioDAO.findByExample(horario);
             int id = 0;
             jason = "";
+            //creamos todos los horarios disponibles con los votos que tiene.
             for (Horario i : resultHorario) {
                 String color = "blue";
                 apoyar = 0;
@@ -105,9 +155,11 @@ public class Votacion extends ActionSupport {
                     evitar += voto.getEvitarGastado();
                     bloquear += voto.getBloquearGastado();
                 }
+                //cambiamos de color si esta ecitar es mayor que apoyar.
                 if (evitar > apoyar) {
                     color = "gray";
                 }
+                //cambiamos de color si esta bloqueado.
                 if (bloquear > 0) {
                     color = "red";
                 }
@@ -123,13 +175,21 @@ public class Votacion extends ActionSupport {
         return "calendar";
     }
 
+    //metodo para insertar un voto de estilo apoyar.
     public String votoApoyar() throws Exception {
+        /*
+         * Se revisa que la direccion tenga un correo elctronico y un
+         * identificador para la reunion.
+         */
         if ((email != null) && (idreunion != null)) {
             VotosDAO votosDaoEjemplo = new VotosDAO();
             ejemploVoto.setIdReunion(idreunion);
             ejemploVoto.setIdUsuario(email);
             ejemploVoto.setIdHorario(idhorario);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            /*Si la lista esta vacia se genera un nuevo voto,
+             *si la lista ya contiene votos se incrementa el apoyar en 1.
+             */
             if (resultVotos.isEmpty()) {
                 ejemploVoto.setApoyarGastado(1);
                 ejemploVoto.setEvitarGastado(0);
@@ -149,13 +209,21 @@ public class Votacion extends ActionSupport {
         return SUCCESS;
     }
 
+    //metodo para insertar un voto de estilo Evitar.
     public String votoEvitar() throws Exception {
+        /*
+         * Se revisa que la direccion tenga un correo elctronico y un
+         * identificador para la reunion.
+         */
         if ((email != null) && (idreunion != null)) {
             VotosDAO votosDaoEjemplo = new VotosDAO();
             ejemploVoto.setIdReunion(idreunion);
             ejemploVoto.setIdUsuario(email);
             ejemploVoto.setIdHorario(idhorario);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            /*Si la lista esta vacia se genera un nuevo voto,
+             *si la lista ya contiene votos se incrementa el Evitar en 1.
+             */
             if (resultVotos.isEmpty()) {
                 ejemploVoto.setApoyarGastado(0);
                 ejemploVoto.setEvitarGastado(1);
@@ -175,13 +243,21 @@ public class Votacion extends ActionSupport {
         return SUCCESS;
     }
 
+    //metodo para insertar un voto de estilo Bloquear.
     public String votoBloquear() throws Exception {
+        /*
+         * Se revisa que la direccion tenga un correo elctronico y un
+         * identificador para la reunion.
+         */
         if ((email != null) && (idreunion != null)) {
             VotosDAO votosDaoEjemplo = new VotosDAO();
             ejemploVoto.setIdReunion(idreunion);
             ejemploVoto.setIdUsuario(email);
             ejemploVoto.setIdHorario(idhorario);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            /*Si la lista esta vacia se genera un nuevo voto,
+             *si la lista ya contiene votos se incrementa el Bloquear en 1.
+             */
             if (resultVotos.isEmpty()) {
                 ejemploVoto.setApoyarGastado(0);
                 ejemploVoto.setEvitarGastado(0);
@@ -201,12 +277,15 @@ public class Votacion extends ActionSupport {
         return SUCCESS;
     }
 
+    //metodo para generar un reset en todos los votos del participante.
     public String resetMyVotes() {
         if ((email != null) && (idreunion != null)) {
+            //obtenermos votos de la reunion.
             VotosDAO votosDaoEjemplo = new VotosDAO();
             ejemploVoto.setIdReunion(idreunion);
             ejemploVoto.setIdUsuario(email);
             List<Votos> resultVotos = votosDaoEjemplo.findByExample(ejemploVoto);
+            //Hacemos el reset.
             for (Votos voto : resultVotos) {
                 votosDaoEjemplo = new VotosDAO();
                 voto.setApoyarGastado(0);
@@ -220,12 +299,58 @@ public class Votacion extends ActionSupport {
         return SUCCESS;
     }
 
+    //metodos get
     public Integer getApoyar() {
         return apoyar;
     }
 
     public Integer getOperacion() {
         return operacion;
+    }
+
+    public Integer getBloquear() {
+        return bloquear;
+    }
+
+    public Integer getEvitar() {
+        return evitar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Integer getIdreunion() {
+        return idreunion;
+    }
+
+    public Integer getIdhorario() {
+        return idhorario;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public String getJason() {
+        return jason;
+    }
+
+    public Integer getResetApoyar() {
+        return resetApoyar;
+    }
+
+    public Integer getResetBloquear() {
+        return resetBloquear;
+    }
+
+    public Integer getResetEvitar() {
+        return resetEvitar;
+    }
+
+    //metodos set
+    public void setIdhorario(Integer idhorario) {
+        this.idhorario = idhorario;
     }
 
     public void setOperacion(Integer operacion) {
@@ -236,80 +361,36 @@ public class Votacion extends ActionSupport {
         this.apoyar = apoyar;
     }
 
-    public Integer getBloquear() {
-        return bloquear;
-    }
-
     public void setBloquear(Integer bloquear) {
         this.bloquear = bloquear;
-    }
-
-    public Integer getEvitar() {
-        return evitar;
     }
 
     public void setEvitar(Integer evitar) {
         this.evitar = evitar;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Integer getIdreunion() {
-        return idreunion;
     }
 
     public void setIdreunion(Integer idreunion) {
         this.idreunion = idreunion;
     }
 
-    public Integer getIdhorario() {
-        return idhorario;
-    }
-
-    public void setIdhorario(Integer idhorario) {
-        this.idhorario = idhorario;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
     public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public String getJason() {
-        return jason;
     }
 
     public void setJason(String jason) {
         this.jason = jason;
     }
 
-    public Integer getResetApoyar() {
-        return resetApoyar;
-    }
-
     public void setResetApoyar(Integer resetApoyar) {
         this.resetApoyar = resetApoyar;
     }
 
-    public Integer getResetBloquear() {
-        return resetBloquear;
-    }
-
     public void setResetBloquear(Integer resetBloquear) {
         this.resetBloquear = resetBloquear;
-    }
-
-    public Integer getResetEvitar() {
-        return resetEvitar;
     }
 
     public void setResetEvitar(Integer resetEvitar) {
